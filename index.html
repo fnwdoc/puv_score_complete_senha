@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>PUV Score v0.0.4.0 — Análise Estratégica para Agências</title>
+<title>PUV Score v0.0.6.5 — Análise Estratégica para Agências</title>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -414,7 +414,7 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer}
             <div style="font-size:.62rem;color:var(--muted);letter-spacing:.04em;margin-top:.05rem">FNW Advisory &amp; Partners</div>
           </div>
         </div>
-        <span class="version-tag">v0.0.6.4</span>
+        <span class="version-tag">v0.0.6.5</span>
       </div>
       <h1 class="input-h1">Análise <em>Estratégica</em><br>para Agências.</h1>
       <p class="input-subtitle">Cole a URL. Nossa IA analisa, pontua e entrega um relatório completo com plano de ação priorizado.</p>
@@ -656,11 +656,12 @@ function scoreColor(pct){
   return 'var(--success)';
 }
 function scoreLabel(pct){
-  if(pct < .4)  return {text:'Crítico',    bg:'rgba(220,38,38,.1)',  color:'var(--danger)'};
-  if(pct < .65) return {text:'Atenção',    bg:'rgba(217,119,6,.1)', color:'var(--warn)'};
-  if(pct < .8)  return {text:'Adequado',   bg:'rgba(233,196,74,.12)',color:'#E9C46A'};
-  if(pct < .95) return {text:'Sólido',     bg:'rgba(22,163,74,.1)', color:'var(--success)'};
-  return               {text:'Referência', bg:'rgba(22,163,74,.15)',color:'var(--success)'};
+  const score = Math.round(pct * 100);
+  if(score <= 30) return {text:'Crítico',    bg:'rgba(220,38,38,.1)',   color:'var(--danger)'};
+  if(score <= 55) return {text:'Atenção',    bg:'rgba(217,119,6,.1)',  color:'var(--warn)'};
+  if(score <= 70) return {text:'Adequado',   bg:'rgba(233,196,74,.12)',color:'#E9C46A'};
+  if(score <= 85) return {text:'Sólido',     bg:'rgba(0,180,255,.1)',  color:'#00B4FF'};
+  return               {text:'Referência',   bg:'rgba(22,163,74,.15)', color:'var(--success)'};
 }
 
 function buildSpeedometer(score, max=100){
@@ -744,7 +745,7 @@ function renderReport(data){
     </div>
     <div class="report-header">
       <div class="report-meta">
-        <h2>Análise PUV Score <span style="font-size:.6em;color:var(--muted);font-weight:400">v0.0.6.4</span></h2>
+        <h2>Análise PUV Score <span style="font-size:.6em;color:var(--muted);font-weight:400">v0.0.6.5</span></h2>
         <div class="url-tag">${data.url}</div>
         <div class="bench-tag">${data.benchmark}</div>
       </div>
@@ -806,7 +807,7 @@ function renderReport(data){
         <div style="flex-shrink:0;width:260px;max-width:100%">${buildSpeedometer(data.total)}</div>
         <div class="score-info">
           <div class="score-number">${data.total}<span style="font-size:1rem;color:var(--muted)">/100</span></div>
-          <div class="score-class">${data.classification}</div>
+          <div class="score-class" style="background:${scoreLabel(data.total/100).bg};color:${scoreLabel(data.total/100).color}">${scoreLabel(data.total/100).text}</div>
           <div class="score-summary">${data.summary}</div>
         </div>
       </div>
@@ -815,19 +816,13 @@ function renderReport(data){
         <div style="font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:.75rem">Escala de classificação PUV Score</div>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:.5rem">
           ${[
-            {range:'0 – 30',  label:'Crítico',    color:'var(--danger)',  bg:'rgba(220,38,38,.1)',   desc:'Reformulação urgente'},
-            {range:'31 – 55', label:'Atenção',    color:'var(--warn)',    bg:'rgba(217,119,6,.1)',  desc:'Oportunidades prioritárias'},
-            {range:'56 – 70', label:'Adequado',   color:'#E9C46A',        bg:'rgba(233,196,74,.1)', desc:'Ajustes pontuais'},
-            {range:'71 – 85', label:'Sólido',     color:'var(--success)', bg:'rgba(22,163,74,.1)',  desc:'Refinamentos premium'},
-            {range:'86 – 100',label:'Referência', color:'var(--success)', bg:'rgba(22,163,74,.15)', desc:'Benchmark do segmento'},
+            {range:'0 – 30',  label:'Crítico',    color:'var(--danger)',  bg:'rgba(220,38,38,.1)',   desc:'Reformulação urgente',      min:0,  max:30},
+            {range:'31 – 55', label:'Atenção',    color:'var(--warn)',    bg:'rgba(217,119,6,.1)',   desc:'Oportunidades prioritárias', min:31, max:55},
+            {range:'56 – 70', label:'Adequado',   color:'#E9C46A',       bg:'rgba(233,196,74,.1)',  desc:'Ajustes pontuais',           min:56, max:70},
+            {range:'71 – 85', label:'Sólido',     color:'#00B4FF',       bg:'rgba(0,180,255,.1)',   desc:'Refinamentos premium',       min:71, max:85},
+            {range:'86 – 100',label:'Referência', color:'var(--success)', bg:'rgba(22,163,74,.15)', desc:'Benchmark do segmento',      min:86, max:100},
           ].map(s => {
-            const isActive = (
-              (s.label==='Crítico'    && data.total<=30) ||
-              (s.label==='Atenção'    && data.total>=31 && data.total<=55) ||
-              (s.label==='Adequado'   && data.total>=56 && data.total<=70) ||
-              (s.label==='Sólido'     && data.total>=71 && data.total<=85) ||
-              (s.label==='Referência' && data.total>=86)
-            );
+            const isActive = data.total >= s.min && data.total <= s.max;
             return `<div style="border-radius:var(--radius-sm);padding:.6rem .75rem;background:${isActive ? s.bg : 'transparent'};border:1.5px solid ${isActive ? s.color : 'var(--border)'};transition:all .2s">
               <div style="font-size:.65rem;color:var(--muted);margin-bottom:.2rem">${s.range}</div>
               <div style="font-size:.82rem;font-weight:700;color:${s.color};margin-bottom:.15rem">${s.label}</div>
