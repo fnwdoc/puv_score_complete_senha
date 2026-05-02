@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>PUV Score v0.0.6.5 — Análise Estratégica para Agências</title>
+<title>PUV Score v0.1.0.9 — Análise Estratégica para Agências</title>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -38,6 +38,7 @@
   --shadow:     0 12px 32px rgba(0,0,0,.5);
   --tooltip-bg: #1E2D44;
   --tooltip-text:#EDF2FA;
+  --btn-on-accent: #000;
 }
 [data-theme="light"] {
   --bg:         #F5F8FF;
@@ -52,14 +53,15 @@
   --accent:     #0A66C2;
   --accent-bg:  rgba(10,102,194,.05);
   --accent-bdr: rgba(10,102,194,.2);
-  --gold:       #B8860B;
-  --gold-bg:    rgba(184,134,11,.08);
-  --danger:     #E53E3E;
-  --success:    #2F9B5A;
-  --warn:       #E68A2E;
+  --gold:       #92640A;
+  --gold-bg:    rgba(146,100,10,.08);
+  --danger:     #C0202A;
+  --success:    #1A7A40;
+  --warn:       #A85A00;
   --shadow:     0 5px 25px rgba(0,0,0,.08);
   --tooltip-bg: #1E2A3A;
   --tooltip-text:#F8FAFE;
+  --btn-on-accent: #fff;
 }
 
 *{margin:0;padding:0;box-sizing:border-box}
@@ -78,7 +80,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--inter);min-height:
 .setting-header{display:flex;justify-content:space-between;align-items:baseline}
 .theme-toggle{display:flex;background:var(--card2);border-radius:60px;padding:3px;gap:3px;border:1px solid var(--border)}
 .theme-btn{flex:1;padding:.3rem .8rem;border-radius:60px;border:none;cursor:pointer;font-size:.75rem;font-weight:600;background:transparent;color:var(--muted);transition:all .2s}
-.theme-btn.active{background:var(--accent);color:#000}
+.theme-btn.active{background:var(--accent);color:var(--btn-on-accent)}
 input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer}
 .settings-api-input{width:100%;background:var(--bg);border:1.5px solid var(--border2);border-radius:var(--radius-sm);padding:.55rem .75rem;font-size:.8rem;color:var(--text);outline:none;font-family:var(--inter)}
 
@@ -94,7 +96,7 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer}
 .screen.active{display:block}
 #screen-input.active{display:flex;align-items:flex-start;justify-content:center;padding:2rem 1rem 0}
 #screen-loading.active{display:flex;align-items:center;justify-content:center}
-#screen-report.active{display:block}
+#screen-demo-choice.active{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:2rem 1rem}
 
 /* INPUT */
 .input-container{max-width:var(--container);width:100%;display:flex;flex-direction:column;gap:1.5rem}
@@ -115,7 +117,7 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer}
 .type-btn.active{border-color:var(--accent);background:var(--accent-bg)}
 .type-btn.active .type-name{color:var(--accent)}
 .type-btn.coming-soon{opacity:.4;cursor:not-allowed}
-.type-icon{font-size:1.2rem;line-height:1}
+.type-icon{font-size:1.2rem;line-height:1;display:flex;align-items:center;justify-content:center;color:var(--text2)}
 .type-name{font-size:.7rem;font-weight:600;color:var(--text2)}
 .type-soon{font-size:.6rem;color:var(--muted);font-style:italic}
 
@@ -123,7 +125,7 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer}
 .url-input{flex:1;min-width:180px;background:var(--surface);border:1.5px solid var(--border2);border-radius:var(--radius-md);padding:.85rem 1.1rem;font-size:.9rem;color:var(--text);outline:none;font-family:var(--inter);transition:border .2s}
 .url-input:focus{border-color:var(--accent)}
 .url-input::placeholder{color:var(--muted)}
-.btn-primary{background:var(--accent);color:#000;border:none;border-radius:var(--radius-md);padding:.85rem 1.8rem;font-family:var(--syne);font-size:.85rem;font-weight:700;cursor:pointer;transition:all .2s;white-space:nowrap}
+.btn-primary{background:var(--accent);color:var(--btn-on-accent);border:none;border-radius:var(--radius-md);padding:.85rem 1.8rem;font-family:var(--syne);font-size:.85rem;font-weight:700;cursor:pointer;transition:all .2s;white-space:nowrap}
 .btn-primary:hover{opacity:.85;transform:translateY(-1px)}
 .btn-primary:disabled{opacity:.4;cursor:not-allowed;transform:none}
 .api-hint{font-size:.68rem;color:var(--muted);margin-bottom:1rem}
@@ -165,11 +167,11 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer}
 .pricing-btn{margin-top:.35rem;font-size:.75rem;font-weight:600;padding:.5rem .9rem;border-radius:var(--radius-sm);border:none;cursor:pointer;font-family:var(--inter);transition:all .2s;text-align:center}
 .avulso-btn{background:var(--card2);color:var(--text2);border:1px solid var(--border2)}
 .avulso-btn:hover{border-color:var(--accent);color:var(--accent)}
-.mensal-btn{background:var(--accent);color:#000}
+.mensal-btn{background:var(--accent);color:var(--btn-on-accent)}
 .mensal-btn:hover{opacity:.88}
 
 /* FOOTER */
-.input-footer{margin-top:1.5rem;padding:1.25rem 0 2.5rem;border-top:1px solid var(--border);font-size:.7rem;color:var(--muted);text-align:center;letter-spacing:.04em;width:100%}
+.input-footer{margin-top:1.5rem;padding:1.25rem 0 2.5rem;border-top:1px solid var(--border);font-size:.7rem;color:var(--muted);text-align:center;letter-spacing:.04em;width:100%;display:flex;flex-direction:column;align-items:center;gap:.5rem}
 .input-footer span{color:var(--text2);font-weight:600}
 
 /* LOADING */
@@ -179,6 +181,7 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer}
 .loading-step{font-size:.88rem;color:var(--muted);animation:fpulse 2s ease-in-out infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes fpulse{0%,100%{opacity:.35}50%{opacity:1}}
+@keyframes demoBlink{0%,100%{box-shadow:0 0 0 0 rgba(221,181,90,.0);transform:scale(1)}50%{box-shadow:0 0 0 6px rgba(221,181,90,.25);transform:scale(1.03)}}
 
 /* REPORT */
 .report-container{max-width:880px;margin:0 auto;padding:1.5rem 1rem 4rem}
@@ -203,7 +206,7 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer}
 .criterion{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.2rem}
 .crit-header{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;margin-bottom:.5rem;align-items:center}
 .crit-name{font-size:.9rem;font-weight:500;display:flex;align-items:center}
-.crit-score{font-family:var(--syne);font-size:.85rem;font-weight:700;color:var(--gold)}
+.crit-score{font-family:var(--syne);font-size:.85rem;font-weight:700}
 .meter-track{height:7px;background:var(--border2);border-radius:10px;overflow:hidden;margin:.7rem 0}
 .meter-fill{height:100%;width:0%;transition:width 1s cubic-bezier(.2,.9,.4,1.1);border-radius:10px}
 .crit-desc{font-size:.83rem;line-height:1.55;color:var(--text2)}
@@ -248,6 +251,7 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer}
 .cta-subtitle{font-size:.85rem;color:var(--muted);margin-bottom:1.25rem;line-height:1.6}
 .cta-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}
 @media(max-width:560px){.cta-grid{grid-template-columns:1fr}}
+@media(max-width:500px){.hero-speedo-col{display:none!important}}
 .cta-card{background:var(--card2);border:1.5px solid var(--border);border-radius:var(--radius-md);padding:1.2rem;text-align:center;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:.6rem}
 .cta-card:hover{transform:translateY(-2px)}
 .cta-card.pa:hover{border-color:var(--accent-bdr)}
@@ -263,109 +267,50 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer}
 .cta-note{margin-top:1rem;padding:.85rem 1rem;background:var(--card2);border-radius:var(--radius-md);border:1px solid var(--border);font-size:.78rem;color:var(--muted);line-height:1.6}
 
 @media print {
-  /* Reset */
-  body { background: white !important; color: #000 !important; font-size: 11pt; }
-
   /* Hide UI elements */
   #settings-btn, #settings-panel, #timeline-nav,
   .btn-back, .demo-link, #screen-input, #screen-loading,
-  #json-viewer, .cta-note, #plan-unlock-btn { display: none !important; }
+  #json-viewer, .cta-note, #plan-unlock-btn,
+  #demo-top-bar, [id^="demo-"] { display: none !important; }
+
+  /* Use CSS variables — respects active theme (light or dark) */
+  body { font-size: 11pt; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 
   /* Each section = one page */
   .report-section {
-    page-break-before: always;
-    page-break-inside: avoid;
-    break-before: page;
-    break-inside: avoid;
-    margin: 0 !important;
-    padding: 2rem 0 !important;
+    page-break-before: always; break-before: page;
+    page-break-inside: avoid; break-inside: avoid;
+    margin: 0 !important; padding: 2rem 0 !important;
   }
-
-  /* First section (score) no break before */
   #sec-score { page-break-before: auto; break-before: auto; }
 
-  /* Report header on its own mini-section at top */
-  .report-header {
-    page-break-after: avoid;
-    break-after: avoid;
-    border-bottom: 2px solid #000 !important;
-    padding-bottom: 1rem !important;
-    margin-bottom: 1rem !important;
-  }
-
-  /* Methodology block */
-  .bench-tag, .url-tag { color: #333 !important; }
+  /* Preserve backgrounds and colors exactly as on screen */
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
 
   /* Score hero */
-  .score-hero {
-    background: #f5f5f5 !important;
-    border: 1px solid #ccc !important;
-    page-break-inside: avoid;
-    break-inside: avoid;
-  }
+  .score-hero { page-break-inside: avoid; break-inside: avoid; }
 
-  /* Scale legend */
-  .report-section > div { page-break-inside: avoid; break-inside: avoid; }
+  /* Speedometer panel — keep dark always (it has hardcoded dark bg) */
+  .score-hero > div:first-child > div { box-shadow: none !important; }
 
-  /* Criteria — each on same page as section title */
-  .criteria-list { page-break-inside: avoid; break-inside: avoid; }
-  .criterion {
-    background: #f9f9f9 !important;
-    border: 1px solid #ddd !important;
-    page-break-inside: avoid;
-    break-inside: avoid;
-    margin-bottom: .5rem !important;
-  }
+  /* Criteria */
+  .criteria-list, .criterion { page-break-inside: avoid; break-inside: avoid; }
+  .criterion { margin-bottom: .5rem !important; }
 
-  /* Gap table */
-  .gap-wrap { page-break-inside: avoid; break-inside: avoid; }
-  .gap-table th { background: #eee !important; }
-  .gap-table td:first-child { color: #c00 !important; }
-  .gap-table td:last-child { color: #060 !important; }
-
-  /* Slides — each pair together */
-  .slide-pair { page-break-inside: avoid; break-inside: avoid; margin-bottom: .5rem !important; }
-  .slide-card.before { background: #fff5f5 !important; border-color: #c00 !important; }
-  .slide-card.after  { background: #f5fff5 !important; border-color: #060 !important; }
-
-  /* Recs */
-  .rec-card { page-break-inside: avoid; break-inside: avoid; background: #f9f9f9 !important; border: 1px solid #ddd !important; }
-  .rec-num { color: #0077cc !important; }
+  /* Gaps, slides, recs */
+  .gap-wrap, .slide-pair, .rec-card { page-break-inside: avoid; break-inside: avoid; }
+  .slide-pair { margin-bottom: .5rem !important; }
 
   /* Plan table */
   #plan-content { display: block !important; }
   #plan-tbody tr { page-break-inside: avoid; break-inside: avoid; }
 
   /* CTA section */
-  .cta-section { background: #f5f5f5 !important; border: 1px solid #ccc !important; }
-  .cta-card { background: #eee !important; border: 1px solid #ccc !important; }
   .cta-btn { display: none !important; }
 
-  /* Methodology block */
-  [style*="gold"] { color: #8B6914 !important; }
-  [style*="accent"] { color: #0055aa !important; }
-
-  /* Section labels */
-  .section-timeline-label {
-    color: #0055aa !important;
-    font-size: 9pt !important;
-    border-left: 4px solid #0055aa !important;
-    padding-left: .5rem !important;
-    margin-bottom: .75rem !important;
-  }
-  .section-timeline-label::before { background: #0055aa !important; }
-
-  /* Links */
-  a { color: #0055aa !important; text-decoration: none !important; }
-
   /* Page margins */
-  @page {
-    margin: 1.5cm 1.8cm;
-    size: A4;
-  }
-  @page :first {
-    margin-top: 1cm;
-  }
+  @page { margin: 1.5cm 1.8cm; size: A4; }
+  @page :first { margin-top: 1cm; }
 }
 </style>
 </head>
@@ -396,6 +341,13 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer}
     <input type="password" class="settings-api-input" id="api-key" placeholder="gsk_..." oninput="saveApiKey(this.value)" autocomplete="off"/>
     <div style="font-size:.65rem;color:var(--muted);margin-top:.2rem"><a href="https://console.groq.com/keys" target="_blank" style="color:var(--accent);text-decoration:none">Obter chave gratuita →</a></div>
   </div>
+  <div class="setting-row" style="border-top:1px solid var(--border);padding-top:.75rem">
+    <div class="setting-label" style="margin-bottom:.5rem">🔐 Admin</div>
+    <div style="display:flex;flex-direction:column;gap:.35rem">
+      <button onclick="adminChangeUrl('site')" style="background:var(--card2);border:1px solid var(--border2);color:var(--text2);border-radius:var(--radius-sm);padding:.4rem .75rem;font-size:.72rem;font-weight:600;cursor:pointer;font-family:var(--inter);text-align:left">🌐 Alterar URL demo Site</button>
+      <button onclick="adminChangeUrl('instagram')" style="background:var(--card2);border:1px solid var(--border2);color:var(--text2);border-radius:var(--radius-sm);padding:.4rem .75rem;font-size:.72rem;font-weight:600;cursor:pointer;font-family:var(--inter);text-align:left">📸 Alterar URL demo Instagram</button>
+    </div>
+  </div>
 </div>
 
 <!-- INPUT SCREEN -->
@@ -414,39 +366,68 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer}
             <div style="font-size:.62rem;color:var(--muted);letter-spacing:.04em;margin-top:.05rem">FNW Advisory &amp; Partners</div>
           </div>
         </div>
-        <span class="version-tag">v0.0.6.5</span>
+        <span class="version-tag">v0.1.0.9</span>
       </div>
-      <h1 class="input-h1">Análise <em>Estratégica</em><br>para Agências.</h1>
-      <p class="input-subtitle">Cole a URL. Nossa IA analisa, pontua e entrega um relatório completo com plano de ação priorizado.</p>
-
-      <!-- SÍNTESE METODOLÓGICA -->
-      <div style="border-left:3px solid var(--accent);padding:.75rem 1rem;margin-bottom:1.5rem;background:var(--accent-bg);border-radius:0 var(--radius-sm) var(--radius-sm) 0">
-        <div style="font-size:.78rem;color:var(--text2);line-height:1.7">
-          O <strong style="color:var(--text)">PUV Score</strong> é um índice de posicionamento digital que avalia qualquer presença online em 5 dimensões estratégicas — pontuando de 0 a 100 com base em âncoras objetivas calibradas pelo
-          <a href="https://www.nngroup.com" target="_blank" style="color:var(--accent);text-decoration:none;font-weight:600">Nielsen Norman Group</a> e pelo
-          <a href="https://cxl.com" target="_blank" style="color:var(--accent);text-decoration:none;font-weight:600">CXL Institute</a>.
-          O resultado é um diagnóstico acionável com gaps, slides comparativos e recomendações priorizadas por impacto — gerado por IA e validável via <strong style="color:var(--gold)">PUV Audit</strong> com revisão humana especializada.
+      <!-- HERO: 2 colunas — esquerda texto, direita velocímetro -->
+      <div style="display:grid;grid-template-columns:1fr auto;gap:1.25rem;align-items:center;margin-bottom:1.5rem">
+        <div>
+          <h1 class="input-h1" style="margin-bottom:.6rem">
+            Análise <em>Estratégica</em><br>para Agências.
+          </h1>
+          <p style="font-size:.88rem;color:var(--text2);line-height:1.7;font-style:italic">
+            Descubra se a narrativa do produto ou serviço conversa com a necessidade real do cliente ou consumidor.
+          </p>
         </div>
-        <div style="margin-top:.6rem;display:flex;align-items:center;gap:.5rem;flex-wrap:wrap">
-          <span style="font-size:.65rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)">Framework:</span>
-          <span style="font-size:.68rem;color:var(--text2);font-weight:500">High-End Digital Positioning Framework (HEDPF)</span>
-          <span style="font-size:.65rem;color:var(--muted)">·</span>
-          <span style="font-size:.68rem;color:var(--accent);font-weight:600">FNW Advisory &amp; Partners</span>
+        <!-- MINI SPEEDOMETER -->
+        <div class="hero-speedo-col" style="flex-shrink:0">
+          <div style="background:linear-gradient(160deg,#080c18 0%,#0d1424 100%);border-radius:16px;padding:.85rem 1rem;box-shadow:0 8px 32px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.06)">
+            <svg id="hero-speedo" viewBox="0 0 260 165" style="width:170px;display:block;overflow:visible">
+              <defs>
+                <filter id="hng"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+                <filter id="hsg"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+              </defs>
+              <path id="hbg1" fill="rgba(255,255,255,0.05)"/>
+              <path id="hbg2" fill="rgba(255,255,255,0.05)"/>
+              <path id="hbg3" fill="rgba(255,255,255,0.05)"/>
+              <path id="hbg4" fill="rgba(255,255,255,0.05)"/>
+              <path id="hbg5" fill="rgba(255,255,255,0.05)"/>
+              <path id="harc1" opacity="0.9"/>
+              <path id="harc2" opacity="0.9"/>
+              <path id="harc3" opacity="0.9"/>
+              <path id="harc4" opacity="0.9"/>
+              <path id="harc5" opacity="0.9"/>
+              <g id="hero-ticks"/>
+              <line id="hero-shadow" stroke="rgba(0,0,0,0.5)" stroke-width="4" stroke-linecap="round"/>
+              <line id="hero-needle" stroke="white" stroke-width="2.2" stroke-linecap="round" filter="url(#hng)"/>
+              <circle id="hero-hub" r="9" fill="#080c18" stroke="rgba(255,255,255,0.15)" stroke-width="1.2"/>
+              <circle id="hero-dot" r="4"/>
+              <text id="hero-score" text-anchor="middle" dominant-baseline="central" font-family="Barlow Condensed,sans-serif" font-size="32" font-weight="800" filter="url(#hsg)">—</text>
+              <text id="hero-pts" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="rgba(255,255,255,0.3)">/ 100 pontos</text>
+            </svg>
+          </div>
         </div>
       </div>
       <div class="type-label">O que analisar?</div>
       <div class="type-grid">
         <button class="type-btn active" id="type-site" onclick="selectType('site')"><span class="type-icon">🌐</span><span class="type-name">Site</span></button>
-        <button class="type-btn" id="type-instagram" onclick="selectType('instagram')"><span class="type-icon">📸</span><span class="type-name">Instagram</span></button>
+        <button class="type-btn" id="type-instagram" onclick="selectType('instagram')"><span class="type-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="20" height="20" rx="5.5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></span><span class="type-name">Instagram</span></button>
         <button class="type-btn coming-soon"><span class="type-icon">🎬</span><span class="type-name">YouTube</span><span class="type-soon">em breve</span></button>
         <button class="type-btn coming-soon"><span class="type-icon">📢</span><span class="type-name">Anúncio</span><span class="type-soon">em breve</span></button>
         <button class="type-btn coming-soon"><span class="type-icon">💼</span><span class="type-name">LinkedIn</span><span class="type-soon">em breve</span></button>
         <button class="type-btn coming-soon"><span class="type-icon">🛒</span><span class="type-name">E‑commerce</span><span class="type-soon">em breve</span></button>
       </div>
 
+      <!-- Ver demonstração — antes da URL -->
+      <div style="text-align:center;margin:.25rem 0 .75rem">
+        <button onclick="loadDemo()" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--card2);border:1px solid var(--border2);color:var(--text2);border-radius:30px;padding:.45rem 1.1rem;font-size:.78rem;font-weight:600;cursor:pointer;font-family:var(--inter);transition:all .2s"
+          onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'"
+          onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--text2)'">
+          ▶ Ver demonstração
+        </button>
+      </div>
+
       <div class="url-field">
         <input class="url-input" id="url-input" type="url" placeholder="https://seusite.com.br" autocomplete="off"/>
-        <button class="btn-primary" id="btn-analyze" onclick="startAnalysis()">Analisar →</button>
       </div>
       <p class="api-hint">🔑 API Key em <button class="api-hint-btn" onclick="toggleSettings()">⚙ Configurações</button></p>
 
@@ -463,7 +444,14 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer}
       </div>
 
       <div id="error-msg" class="error-msg"></div>
-      <button class="demo-link" onclick="loadDemo()">▶ Ver demonstração</button>
+
+      <!-- CTA principal centralizado — AIDA: Ação -->
+      <div style="text-align:center;margin-top:.5rem">
+        <button class="btn-primary" id="btn-analyze" onclick="startAnalysis()"
+          style="padding:.85rem 2.5rem;font-size:.95rem;border-radius:var(--radius-md)">
+          Analisar agora →
+        </button>
+      </div>
 
       <!-- BOOKMARKLET -->
       <div id="bookmarklet-section" style="margin-top:1.25rem;background:var(--card2);border:1px solid var(--border);border-radius:var(--radius-md);padding:.9rem 1.1rem">
@@ -475,7 +463,7 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer}
         </p>
         <div style="display:flex;gap:.6rem;align-items:center;flex-wrap:wrap">
           <a id="bookmarklet-link" href="#"
-            style="background:var(--accent);color:#000;border-radius:var(--radius-sm);padding:.5rem 1rem;font-size:.78rem;font-weight:700;text-decoration:none;font-family:var(--syne);cursor:grab;white-space:nowrap;user-select:none"
+            style="background:var(--accent);color:var(--btn-on-accent);border-radius:var(--radius-sm);padding:.5rem 1rem;font-size:.78rem;font-weight:700;text-decoration:none;font-family:var(--syne);cursor:grab;white-space:nowrap;user-select:none"
             title="ARRASTE para a barra de favoritos — não clique">
             📊 PUV Score
           </a>
@@ -527,6 +515,29 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer}
       </div>
     </div>
 
+    <!-- ACORDEÃO — METODOLOGIA -->
+    <div style="border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;margin-bottom:0">
+      <button onclick="toggleAccordion()" id="accordion-btn"
+        style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:.85rem 1.1rem;background:var(--card2);border:none;cursor:pointer;font-family:var(--inter);gap:.5rem">
+        <span style="font-size:.82rem;font-weight:600;color:var(--text2)">📖 Saiba mais — como funciona a metodologia</span>
+        <span id="accordion-icon" style="color:var(--muted);font-size:1rem;transition:transform .3s">▾</span>
+      </button>
+      <div id="accordion-body" style="display:none;padding:1rem 1.1rem;border-top:1px solid var(--border)">
+        <div style="font-size:.78rem;color:var(--text2);line-height:1.75">
+          O <strong style="color:var(--text)">PUV Score</strong> é um índice de posicionamento digital que avalia qualquer presença online em 5 dimensões estratégicas — pontuando de 0 a 100 com base em âncoras objetivas calibradas pelo
+          <a href="https://www.nngroup.com" target="_blank" style="color:var(--accent);text-decoration:none;font-weight:600">Nielsen Norman Group</a> e pelo
+          <a href="https://cxl.com" target="_blank" style="color:var(--accent);text-decoration:none;font-weight:600">CXL Institute</a>.
+          O resultado é um diagnóstico acionável com gaps, slides comparativos e recomendações priorizadas por impacto — gerado por IA e validável via <strong style="color:var(--gold)">PUV Audit</strong> com revisão humana especializada.
+        </div>
+        <div style="margin-top:.75rem;display:flex;align-items:center;gap:.5rem;flex-wrap:wrap">
+          <span style="font-size:.65rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)">Framework:</span>
+          <span style="font-size:.68rem;color:var(--text2);font-weight:500">High-End Digital Positioning Framework (HEDPF)</span>
+          <span style="font-size:.65rem;color:var(--muted)">·</span>
+          <span style="font-size:.68rem;color:var(--accent);font-weight:600">FNW Advisory &amp; Partners</span>
+        </div>
+      </div>
+    </div>
+
     <!-- PRICING CARD -->
     <div class="pricing-card-wrap">
       <div class="pricing-title">Investimento</div>
@@ -548,13 +559,54 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer}
 
     <!-- FOOTER -->
     <div class="input-footer">
-      <div style="display:inline-flex;align-items:center;gap:.5rem;margin-bottom:.35rem">
+      <button onclick="loadDemo()" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--card2);border:1px solid var(--border2);color:var(--text2);border-radius:30px;padding:.45rem 1.1rem;font-size:.78rem;font-weight:600;cursor:pointer;font-family:var(--inter);margin-bottom:.75rem;transition:all .2s"
+        onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'"
+        onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--text2)'">
+        ▶ Ver demonstração
+      </button>
+      <div style="display:inline-flex;align-items:center;gap:.5rem">
         <img src="https://d1yei2z3i6k35z.cloudfront.net/3119789/69971d1031628_FNWNEWLogo_26.png"
              alt="FNW" width="18" height="18" style="border-radius:4px;opacity:.6;display:block"/>
         <span>Developed by <span>FNW Advisory &amp; Partners</span></span>
       </div>
     </div>
 
+  </div>
+</div>
+
+<!-- DEMO CHOICE SCREEN -->
+<div class="screen" id="screen-demo-choice">
+  <div style="max-width:480px;width:100%;margin:0 auto;padding:2rem 1.5rem;display:flex;flex-direction:column;align-items:center;text-align:center;gap:1.5rem">
+    <div class="logo-badge"><div class="logo-dot"></div><span class="logo-text">PUV SCORE · DEMO</span></div>
+    <div>
+      <h2 style="font-family:var(--syne);font-size:1.5rem;font-weight:800;margin-bottom:.5rem">Escolha o tipo de análise</h2>
+      <p style="font-size:.88rem;color:var(--muted);line-height:1.6">Selecione o objeto para ver um exemplo real de relatório PUV Score.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;width:100%">
+      <!-- Site -->
+      <div onclick="startDemo('site')" style="background:var(--card);border:1.5px solid var(--border2);border-radius:var(--radius-lg);padding:1.5rem 1rem;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:.75rem"
+        onmouseover="this.style.borderColor='var(--accent)';this.style.transform='translateY(-2px)'"
+        onmouseout="this.style.borderColor='var(--border2)';this.style.transform=''">
+        <span style="font-size:2.5rem">🌐</span>
+        <div>
+          <div style="font-family:var(--syne);font-size:1rem;font-weight:700;margin-bottom:.25rem">Site</div>
+          <div style="font-size:.72rem;color:var(--muted);line-height:1.5">Landing page SaaS</div>
+        </div>
+        <div id="demo-label-site" style="font-size:.65rem;color:var(--accent);font-weight:600;background:var(--accent-bg);padding:.2rem .6rem;border-radius:30px">puv-score.vercel.app</div>
+      </div>
+      <!-- Instagram -->
+      <div onclick="startDemo('instagram')" style="background:var(--card);border:1.5px solid var(--border2);border-radius:var(--radius-lg);padding:1.5rem 1rem;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:.75rem"
+        onmouseover="this.style.borderColor='var(--accent)';this.style.transform='translateY(-2px)'"
+        onmouseout="this.style.borderColor='var(--border2)';this.style.transform=''">
+        <span style="font-size:2.5rem;line-height:1;color:var(--text2)"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="20" height="20" rx="5.5" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.5"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor"/></svg></span>
+        <div>
+          <div style="font-family:var(--syne);font-size:1rem;font-weight:700;margin-bottom:.25rem">Instagram</div>
+          <div style="font-size:.72rem;color:var(--muted);line-height:1.5">Perfil analisado</div>
+        </div>
+        <div id="demo-label-instagram" style="font-size:.65rem;color:var(--accent);font-weight:600;background:var(--accent-bg);padding:.2rem .6rem;border-radius:30px">@bio.tq</div>
+      </div>
+    </div>
+    <button onclick="goBack()" style="background:none;border:none;color:var(--muted);font-size:.78rem;cursor:pointer;font-family:var(--inter);text-decoration:underline">← Voltar</button>
   </div>
 </div>
 
@@ -575,15 +627,48 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer}
 <script>
 const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycby04929F5XDrbqFoJogx6VTt3Ku09E5hVC2OFIY09lN_DdM5JFpQGAautsHiTe44RrW/exec';
 
-const DEMO = {
+// ── ADMIN CONFIG (senha: 1234A$) ──────────────────────────────────────────────
+const ADMIN_PWD = '1234A$';
+let demoUrls = {
+  site:      localStorage.getItem('demo-url-site')      || 'https://puv-score.vercel.app',
+  instagram: localStorage.getItem('demo-url-instagram') || 'https://instagram.com/bio.tq',
+};
+function updateDemoLabels(){
+  const siteEl = document.getElementById('demo-label-site');
+  const igEl   = document.getElementById('demo-label-instagram');
+  if(siteEl) siteEl.textContent = demoUrls.site.replace(/https?:\/\//,'');
+  if(igEl)   igEl.textContent   = demoUrls.instagram.replace(/https?:\/\//,'');
+}
+
+function adminChangeUrl(type){
+  if(!type || (type !== 'site' && type !== 'instagram')){
+    type = prompt('Qual URL alterar? Digite: site ou instagram');
+    if(!type) return;
+    type = type.trim().toLowerCase();
+  }
+  const pwd = prompt('🔐 Senha admin:');
+  if(pwd !== ADMIN_PWD){ alert('Senha incorreta.'); return; }
+  const newUrl = prompt(`Nova URL demo (${type}):`, demoUrls[type]);
+  if(newUrl && newUrl.trim()){
+    demoUrls[type] = newUrl.trim();
+    localStorage.setItem(`demo-url-${type}`, newUrl.trim());
+    // Update DEMO_INSTAGRAM url so simulation uses it
+    if(type === 'instagram') DEMO_INSTAGRAM.url = newUrl.trim();
+    if(type === 'site') DEMO_SITE.url = newUrl.trim();
+    updateDemoLabels();
+    alert(`✅ URL demo ${type} atualizada para:\n${newUrl.trim()}`);
+  }
+}
+
+const DEMO_SITE = {
   url:'https://puv-score.vercel.app',
   benchmark:'High-End Digital Positioning Framework (HEDPF) · SaaS / Diagnóstico Digital',
   total:58,
   classification:'Atenção — Oportunidade de Conversão Não Capturada',
-  summary:'A landing page tem estrutura sólida e headline de dor clara. O gap principal está na camada de conversão: CTA direto ao signup com alta fricção, ausência de autoridade metodológica e prova social sem ancoragem contextual.',
+  summary:'A landing page puv-score.vercel.app tem estrutura sólida e headline de dor clara. O gap principal está na camada de conversão: CTA direto ao signup com alta fricção, ausência de autoridade metodológica e prova social sem ancoragem contextual.',
   criteria:[
-    {name:'Clareza da Proposta de Valor',score:15,max:20,tip:'Avalia se o visitante entende em <5s o que o produto faz e qual resultado obterá.',desc:'Headline de dor funcional e demo visual no hero. Falta subtítulo de resultado concreto.'},
-    {name:'Arquitetura de Funil / CTA',score:10,max:20,tip:'Analisa se há jornada guiada do visitante frio até a conversão.',desc:'CTA única → signup com 5 campos. Alta fricção. Ausência de micro-conversão intermediária.'},
+    {name:'Clareza da Proposta de Valor',score:15,max:20,tip:'Avalia se o visitante entende em <5s o que o produto faz e qual resultado obterá.',desc:'Headline de dor funcional e demo visual no hero. Falta subtítulo de resultado concreto e resposta ao "o que acontece quando clico".'},
+    {name:'Arquitetura de Funil / CTA',score:10,max:20,tip:'Analisa se há jornada guiada do visitante frio até a conversão.',desc:'CTA única → signup com 5 campos. Alta fricção para visitante frio. Ausência de micro-conversão intermediária.'},
     {name:'Prova Social e Credibilidade',score:12,max:20,tip:'Verifica depoimentos, números validados e âncoras de autoridade.',desc:'Números presentes mas sem fonte ou data. Nenhuma âncora de autoridade metodológica.'},
     {name:'Posicionamento de Nicho',score:13,max:20,tip:'Clareza do público-alvo e diferencial vs. concorrentes.',desc:'Nicho claro (PMEs brasileiras). Falta comunicar diferencial vs. ferramentas gratuitas.'},
     {name:'Friction de Conversão',score:8,max:20,tip:'Mede o esforço exigido do usuário para avançar.',desc:'Formulário de 5 campos na primeira interação. Free plan com foco nas limitações.'},
@@ -608,6 +693,43 @@ const DEMO = {
     {n:'03',priority:'Alta Prioridade',title:'Criar Urgência Contextual Antes do Pricing',impact:'+decisão de compra, +ARPU Pro, +velocidade',desc:'A transição de depoimentos para preços é abrupta. Um bloco de urgência — "relatório exclusivo por CNPJ" — ativa o gatilho de competitividade antes da tabela de preços.'},
   ]
 };
+
+const DEMO_INSTAGRAM = {
+  url:'https://instagram.com/bio.tq',
+  benchmark:'High-End Digital Positioning Framework (HEDPF) · Saúde Integrativa & Wellness Premium',
+  total:49,
+  classification:'Atenção — Oportunidade Crítica de Otimização',
+  summary:'O perfil @bio.tq da BioTQ opera no segmento de biofísica e terapias quânticas. A bio atual lista procedimentos técnicos (Rife, Detox, Desparasitação) sem traduzir em benefício emocional ou resultado concreto para o cliente. O gap central é de narrativa: a bio fala a língua do terapeuta, não do paciente.',
+  criteria:[
+    {name:'Clareza da Proposta de Valor',score:10,max:20,tip:'Visitante entende o benefício em menos de 5 segundos?',desc:'A bio abre com "🧬 Biofísica Terapias Quânticas - BioTQ ⚛️ Terapias Frequenciais Rife" — linguagem técnica inacessível para o cliente não especialista. Não há benefício explícito.'},
+    {name:'Arquitetura de Funil / CTA',score:7,max:20,tip:'Há chamada para ação clara e próximo passo definido?',desc:'Ausência completa de CTA. O visitante não sabe se deve enviar mensagem, agendar ou clicar em link. Nenhum link na bio direciona para agendamento ou contato.'},
+    {name:'Prova Social e Credibilidade',score:8,max:20,tip:'Há depoimentos, números ou autoridade visível?',desc:'Nenhuma menção a número de clientes, depoimentos em destaque, certificações ou resultados mensuráveis visíveis no perfil com 35K seguidores.'},
+    {name:'Posicionamento de Nicho',score:13,max:20,tip:'Nicho específico e diferencial declarado?',desc:'Há um nicho identificável (biofísica + frequências Rife), mas o posicionamento é técnico-genérico, sem diferencial competitivo explícito frente a outras clínicas de terapias alternativas.'},
+    {name:'Friction de Conversão',score:11,max:20,tip:'Qual o esforço do seguidor para se tornar cliente?',desc:'Emojis misturados sem hierarquia visual. Sem link de agendamento direto. O seguidor precisa descobrir por conta própria como contratar — alta fricção para conversão.'},
+  ],
+  gaps:[
+    ['🧬 Biofísica Terapias Quânticas - BioTQ','🧬 Recupere sua saúde com biofísica quântica'],
+    ['Terapias Frequenciais Rife (técnico)','Recupere energia e vitalidade com tecnologia não-invasiva'],
+    ['Limpeza Terreno Biológico (jargão)','Elimine o que intoxica seu corpo — sinta a diferença'],
+    ['Sem CTA na bio','👉 Agende sua avaliação gratuita ↓'],
+    ['Sem prova social visível','✅ +500 atendimentos · ⭐ Depoimentos em destaque'],
+  ],
+  slides:[
+    {num:'01',elem:'Bio do Perfil',before:'🧬 Biofísica Terapias Quânticas - BioTQ ⚛️ Terapias Frequenciais Rife ✴️ Limpeza Terreno Biológico, Detox Metais Tóxicos, Desparasitação, Detox Órgãos',after:'🧬 Recupere sua saúde com biofísica quântica\n⚡ Frequências Rife · Detox Profundo · Equilíbrio Celular\n✅ +500 pessoas já transformaram sua saúde\n👉 Agende sua avaliação gratuita ↓'},
+    {num:'02',elem:'Nome de Exibição',before:'BioTQ',after:'BioTQ · Saúde Quântica e Biofísica'},
+    {num:'03',elem:'Call to Action',before:'[Ausente — nenhuma instrução de próximo passo]',after:'👉 Agende sua avaliação gratuita | 🔗 Link para agendamento/WhatsApp'},
+    {num:'04',elem:'Prova Social',before:'[Ausente na bio]',after:'✅ +500 atendimentos realizados | ⭐ Depoimentos em destaque nos Stories'},
+    {num:'05',elem:'Estrutura de Destaques',before:'Organização genérica ou ausente. Sem narrativa de funil.',after:'① Como Funciona ② Resultados ③ Quem Somos ④ FAQ ⑤ Agendamento'},
+  ],
+  recommendations:[
+    {n:'01',priority:'Prioridade Máxima',title:'Reescrever a Bio com Narrativa Orientada a Resultado',impact:'+CTA, +Clareza de Proposta, +Conversão de Seguidor para Cliente',desc:'A bio atual opera em registro técnico-descritivo inacessível ao cliente não especialista. A reescrita deve iniciar com o benefício central — o resultado que o cliente deseja — e introduzir os mecanismos (Rife, biofísica, detox) apenas como credenciais de entrega. Incluir CTA direto para agendamento.'},
+    {n:'02',priority:'Alta Prioridade',title:'Inserir Prova Social Quantificável e Visível',impact:'+Credibilidade, +Qualificação, +Confiança do Seguidor',desc:'Nenhum elemento de prova social está visível na bio ou nos destaques do perfil com 35K seguidores. Incluir número de atendimentos na bio, criar destaque de depoimentos em vídeo e fixar casos de sucesso documentados.'},
+    {n:'03',priority:'Alta Prioridade',title:'Arquitetar Funil de Conversão via Destaques',impact:'+Engajamento, +Leads Qualificados, +Agendamentos',desc:'O perfil não possui arquitetura de funil. A estrutura de Destaques deve funcionar como um mini-site de vendas: ① Como Funciona ② Resultados ③ Quem Somos ④ FAQ ⑤ Agendar — criando jornada orgânica de conversão sem custo adicional.'},
+  ]
+};
+
+// Alias for backward compatibility
+const DEMO = DEMO_SITE;
 
 let currentStepInterval = null, globalObserver = null, selectedType = 'site';
 
@@ -637,8 +759,7 @@ function setFontSize(v){
 function showScreen(id){
   document.querySelectorAll('.screen').forEach(s => { s.classList.remove('active'); s.style.display='none'; });
   const el = document.getElementById(id);
-  if(id==='screen-input') el.style.display='flex';
-  else if(id==='screen-loading') el.style.display='flex';
+  if(id==='screen-input' || id==='screen-loading' || id==='screen-demo-choice') el.style.display='flex';
   else el.style.display='block';
   el.classList.add('active');
   window.scrollTo(0,0);
@@ -649,43 +770,196 @@ function setError(msg){
   e.style.display = msg ? 'block' : 'none';
 }
 
-function scoreColor(pct){
-  if(pct < .4) return 'var(--danger)';
-  if(pct < .65) return 'var(--warn)';
-  if(pct < .8) return '#E9C46A';
-  return 'var(--success)';
+// ── ÚNICA FONTE DE VERDADE PARA CORES DE ZONA ────────────────────────────────
+function zoneForScore(score){
+  // score = 0-100 inteiro ou pct = 0-1
+  const s = score <= 1 ? Math.round(score * 100) : Math.round(score);
+  const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+  if(s <= 30) return {
+    text:'Crítico',    col:'#FF4060',
+    colLight:'#C0202A', bg:'rgba(255,64,96,.12)', bgLight:'rgba(192,32,42,.1)'
+  };
+  if(s <= 55) return {
+    text:'Atenção',    col:'#E040A0',
+    colLight:'#901060', bg:'rgba(224,64,160,.12)', bgLight:'rgba(144,16,96,.1)'
+  };
+  if(s <= 70) return {
+    text:'Adequado',   col:'#FF8800',
+    colLight:'#A85A00', bg:'rgba(255,136,0,.12)', bgLight:'rgba(168,90,0,.1)'
+  };
+  if(s <= 85) return {
+    text:'Sólido',     col:'#00B4FF',
+    colLight:'#005FA3', bg:'rgba(0,180,255,.12)', bgLight:'rgba(0,95,163,.1)'
+  };
+  return {
+    text:'Referência', col:'#00DD66',
+    colLight:'#1A7A40', bg:'rgba(0,221,102,.12)', bgLight:'rgba(26,122,64,.1)'
+  };
 }
+
+function getZoneColor(score){
+  const z = zoneForScore(score);
+  const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+  return isDark ? z.col : z.colLight;
+}
+
+function getZoneBg(score){
+  const z = zoneForScore(score);
+  const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+  return isDark ? z.bg : z.bgLight;
+}
+
+// Aliases para compatibilidade com código existente
+function scoreColor(pct){
+  return getZoneColor(Math.round(pct * 100));
+}
+
 function scoreLabel(pct){
-  const score = Math.round(pct * 100);
-  if(score <= 30) return {text:'Crítico',    bg:'rgba(220,38,38,.1)',   color:'var(--danger)'};
-  if(score <= 55) return {text:'Atenção',    bg:'rgba(217,119,6,.1)',  color:'var(--warn)'};
-  if(score <= 70) return {text:'Adequado',   bg:'rgba(233,196,74,.12)',color:'#E9C46A'};
-  if(score <= 85) return {text:'Sólido',     bg:'rgba(0,180,255,.1)',  color:'#00B4FF'};
-  return               {text:'Referência',   bg:'rgba(22,163,74,.15)', color:'var(--success)'};
+  const s = Math.round(pct * 100);
+  const z = zoneForScore(s);
+  const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+  return {
+    text:  z.text,
+    color: isDark ? z.col : z.colLight,
+    bg:    isDark ? z.bg  : z.bgLight,
+  };
 }
 
 function buildSpeedometer(score, max=100){
-  const pct = score/max;
-  const cx=130, cy=120, ro=95, ri=60, needleR=82;
-  function segAngle(p){ return Math.PI - p * Math.PI; }
-  function arc(s,e,col){
-    const steps=50; let d='';
-    for(let i=0;i<=steps;i++){ const t=i/steps,a=segAngle((s+t*(e-s))/100); d+=i===0?`M${cx+ro*Math.cos(a)},${cy-ro*Math.sin(a)}`:`L${cx+ro*Math.cos(a)},${cy-ro*Math.sin(a)}`; }
-    for(let i=steps;i>=0;i--){ const t=i/steps,a=segAngle((s+t*(e-s))/100); d+=`L${cx+ri*Math.cos(a)},${cy-ri*Math.sin(a)}`; }
-    return `<path d="${d}Z" fill="${col}" stroke="var(--bg)" stroke-width="2"/>`;
+  const cx=160, cy=148, ro=118, ri=88, needleR=105;
+  const uid = 'spd' + Math.random().toString(36).slice(2,7);
+  window._speedoUid = uid;
+
+  function segAngle(p){ return Math.PI - (p/100) * Math.PI; }
+
+  function arcBg(s, e){
+    const steps=80; let d='';
+    for(let i=0;i<=steps;i++){ const t=i/steps,p=s+t*(e-s),a=segAngle(p); d+=i===0?`M${cx+ro*Math.cos(a)},${cy-ro*Math.sin(a)}`:`L${cx+ro*Math.cos(a)},${cy-ro*Math.sin(a)}`; }
+    for(let i=steps;i>=0;i--){ const t=i/steps,p=s+t*(e-s),a=segAngle(p); d+=`L${cx+ri*Math.cos(a)},${cy-ri*Math.sin(a)}`; }
+    return `<path d="${d}Z" fill="rgba(255,255,255,0.05)"/>`;
   }
-  const needleA=segAngle(pct), nx=cx+needleR*Math.cos(needleA), ny=cy-needleR*Math.sin(needleA);
-  const col=pct<.4?'#FF4757':pct<.55?'#FFA502':pct<.75?'#E9C46A':'#2ED573';
-  return `<svg viewBox="0 0 260 145" style="width:100%;max-width:260px;display:block;overflow:visible">
-    ${arc(0,30,'#FF4757')}${arc(30,55,'#FFA502')}${arc(55,75,'#E9C46A')}${arc(75,100,'#2ED573')}
-    <line x1="${cx}" y1="${cy}" x2="${nx}" y2="${ny}" stroke="var(--text)" stroke-width="3" stroke-linecap="round"/>
-    <circle cx="${cx}" cy="${cy}" r="9" fill="var(--text)"/>
-    <circle cx="${cx}" cy="${cy}" r="4" fill="var(--bg)"/>
-    <text x="${cx}" y="${cy+24}" text-anchor="middle" font-family="Barlow Condensed" font-size="26" font-weight="800" fill="${col}">${score}</text>
-    <text x="${cx}" y="${cy+38}" text-anchor="middle" font-family="Inter" font-size="9" fill="var(--muted)">/ ${max} pontos</text>
-    <text x="${cx-ro-8}" y="${cy+4}" text-anchor="end" font-family="Inter" font-size="9" fill="#FF4757">0</text>
-    <text x="${cx+ro+8}" y="${cy+4}" text-anchor="start" font-family="Inter" font-size="9" fill="#2ED573">100</text>
-  </svg>`;
+
+  function arc(s, e, col, glow=false){
+    const steps=80, gap=1.2;
+    const sA=s+(s===0?0:gap), eA=e-(e===100?0:gap);
+    let d='';
+    for(let i=0;i<=steps;i++){ const t=i/steps,p=sA+t*(eA-sA),a=segAngle(p); d+=i===0?`M${cx+ro*Math.cos(a)},${cy-ro*Math.sin(a)}`:`L${cx+ro*Math.cos(a)},${cy-ro*Math.sin(a)}`; }
+    for(let i=steps;i>=0;i--){ const t=i/steps,p=sA+t*(eA-sA),a=segAngle(p); d+=`L${cx+ri*Math.cos(a)},${cy-ri*Math.sin(a)}`; }
+    const filter = glow ? `filter="url(#zg-${uid})"` : '';
+    const opacity = glow ? '1' : '0.75';
+    return `<path d="${d}Z" fill="${col}" opacity="${opacity}" ${filter}/>`;
+  }
+
+  // Use hardcoded zone color (not CSS var) for score display inside dark SVG panel
+  const zoneColor = getZoneColor(score);
+  const zoneGlowColor = score<=30?'rgba(255,51,85,.6)':score<=55?'rgba(255,136,0,.6)':score<=70?'rgba(234,192,0,.6)':score<=85?'rgba(0,153,238,.6)':'rgba(0,221,102,.6)';
+
+  const lbl = scoreLabel(score/100);
+  const nxS = cx + needleR*Math.cos(Math.PI);
+  const nyS = cy - needleR*Math.sin(Math.PI);
+
+  // Determine which zone the score falls in
+  const zones = [
+    {s:0,  e:30,  col:'#FF4060'},
+    {s:30, e:55,  col:'#E040A0'},
+    {s:55, e:70,  col:'#FF8800'},
+    {s:70, e:85,  col:'#00B4FF'},
+    {s:85, e:100, col:'#00DD66'},
+  ];
+
+  // Ticks every 2 points (51 marks), major every 10
+  const ticks = Array.from({length:51}, (_,i) => {
+    const p=i*2, a=segAngle(p);
+    const isMajor = p%10===0;
+    const isMid   = p%5===0 && !isMajor;
+    const o1=ro+2;
+    const o2=isMajor?ro+16:isMid?ro+10:ro+7;
+    const lx=cx+(ro+26)*Math.cos(a), ly=cy-(ro+26)*Math.sin(a);
+    const label = isMajor ? `<text x="${lx.toFixed(1)}" y="${(ly+3.5).toFixed(1)}" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" font-weight="600" fill="rgba(255,255,255,0.45)">${p}</text>` : '';
+    const opacity = isMajor?'0.6':isMid?'0.3':'0.18';
+    const sw = isMajor?'1.5':isMid?'0.9':'0.6';
+    return `<line x1="${(cx+o1*Math.cos(a)).toFixed(1)}" y1="${(cy-o1*Math.sin(a)).toFixed(1)}" x2="${(cx+o2*Math.cos(a)).toFixed(1)}" y2="${(cy-o2*Math.sin(a)).toFixed(1)}" stroke="rgba(255,255,255,${opacity})" stroke-width="${sw}" stroke-linecap="round"/>` + label;
+  }).join('');
+
+  const isDarkTheme = document.documentElement.getAttribute('data-theme') !== 'light';
+  const panelBg = isDarkTheme
+    ? 'linear-gradient(160deg,#080c18 0%,#0d1424 60%,#0a1020 100%)'
+    : 'linear-gradient(160deg,#1a2340 0%,#1e2a4a 60%,#162038 100%)';
+  const panelShadow = isDarkTheme
+    ? '0 12px 40px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.05)'
+    : '0 8px 32px rgba(20,40,100,.25),inset 0 1px 0 rgba(255,255,255,.08)';
+  const hubFill = isDarkTheme ? '#080c18' : '#1a2340';
+
+  return `<div style="background:${panelBg};border-radius:18px;padding:1.25rem 1rem .85rem;display:inline-block;width:100%;max-width:380px;box-shadow:${panelShadow}">
+  <svg id="${uid}" viewBox="0 0 320 210" style="width:100%;display:block;overflow:visible">
+    <defs>
+      <filter id="ng-${uid}"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      <filter id="sg-${uid}"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      <filter id="zg-${uid}" x="-30%" y="-30%" width="160%" height="160%">
+        <feGaussianBlur stdDeviation="5" result="b"/>
+        <feComposite in="b" in2="SourceGraphic" operator="over"/>
+        <feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+
+    <!-- Inactive background arcs -->
+    ${zones.map(z => arcBg(z.s, z.e)).join('')}
+
+    <!-- Active color arcs — zone containing score gets glow -->
+    ${zones.map(z => {
+      const active = score >= z.s && score <= z.e;
+      return arc(z.s, z.e, z.col, active);
+    }).join('')}
+
+    <!-- Score indicator dot on arc at current position -->
+    ${(() => {
+      const a = segAngle(score);
+      const mr = (ro+ri)/2;
+      const dx = cx+mr*Math.cos(a), dy = cy-mr*Math.sin(a);
+      return `<circle cx="${dx.toFixed(1)}" cy="${dy.toFixed(1)}" r="5" fill="white" opacity="0.9" filter="url(#ng-${uid})"/>`;
+    })()}
+
+    <!-- Ticks -->
+    ${ticks}
+
+    <!-- Needle shadow + needle -->
+    <line id="${uid}-shadow" x1="${cx}" y1="${cy}" x2="${nxS}" y2="${nyS}" stroke="rgba(0,0,0,0.6)" stroke-width="5" stroke-linecap="round"/>
+    <line id="${uid}-needle" x1="${cx}" y1="${cy}" x2="${nxS}" y2="${nyS}" stroke="white" stroke-width="2.5" stroke-linecap="round" filter="url(#ng-${uid})"/>
+
+    <!-- Hub -->
+    <circle cx="${cx}" cy="${cy}" r="12" fill="${hubFill}" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+    <circle cx="${cx}" cy="${cy}" r="5" fill="${lbl.color}"/>
+
+    <!-- Score number -->
+    <text id="${uid}-score" x="${cx}" y="${cy+40}" text-anchor="middle" dominant-baseline="central" font-family="Barlow Condensed,sans-serif" font-size="44" font-weight="800" fill="${lbl.color}" opacity="0" filter="url(#sg-${uid})">${score}</text>
+    <text x="${cx}" y="${cy+64}" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="rgba(255,255,255,0.3)">/ ${max} pontos</text>
+  </svg>
+</div>`;
+}
+
+
+function animateNeedle(uid, score, max, cx, cy, needleR){
+  var needle  = document.getElementById(uid+'-needle');
+  var shadow  = document.getElementById(uid+'-shadow');
+  var scoreEl = document.getElementById(uid+'-score');
+  if(!needle) return;
+  var startAngle = Math.PI;
+  var endAngle   = Math.PI - (score/max) * Math.PI;
+  var duration   = 1200, start = null;
+  function ease(t){ return t<0.5 ? 2*t*t : 1-Math.pow(-2*t+2,2)/2; }
+  function step(ts){
+    if(!start) start = ts;
+    var prog  = Math.min((ts-start)/duration, 1);
+    var e     = ease(prog);
+    var angle = startAngle + (endAngle-startAngle)*e;
+    var nx    = cx + needleR*Math.cos(angle);
+    var ny    = cy - needleR*Math.sin(angle);
+    needle.setAttribute('x2', nx); needle.setAttribute('y2', ny);
+    shadow.setAttribute('x2', nx); shadow.setAttribute('y2', ny);
+    if(scoreEl) scoreEl.setAttribute('opacity', e.toFixed(2));
+    if(prog < 1) requestAnimationFrame(step);
+  }
+  setTimeout(function(){ requestAnimationFrame(step); }, 300);
 }
 
 function renderReport(data){
@@ -697,7 +971,7 @@ function renderReport(data){
         <span class="crit-name" ${cr.tip?`data-tip="${cr.tip}"`:''}>${cr.name}${cr.tip?'<span class="tip-icon">?</span>':''}</span>
         <div style="display:flex;align-items:center;gap:.5rem">
           <span style="font-size:.68rem;font-weight:700;padding:.2rem .6rem;border-radius:30px;background:${lbl.bg};color:${lbl.color}">${lbl.text}</span>
-          <span class="crit-score">${cr.score}/${cr.max}</span>
+          <span class="crit-score" style="color:${lbl.color}">${cr.score}/${cr.max}</span>
         </div>
       </div>
       <div class="meter-track"><div class="meter-fill" style="width:0%;background:${scoreColor(pct)}" data-pct="${pct*100}"></div></div>
@@ -731,26 +1005,81 @@ function renderReport(data){
       </div>
     </div>`).join('');
 
+  // Demo CTA — centered, prominent, only in demo mode
+  const demoCTA = data._isDemo ? `
+    <div style="text-align:center;margin-top:1.25rem;padding-top:1rem;border-top:1px solid var(--border)">
+      <button onclick="requestDemoConversion()" style="
+        background:var(--gold);color:var(--btn-on-accent);border:none;
+        border-radius:40px;padding:.65rem 2rem;font-size:.88rem;font-weight:700;
+        cursor:pointer;font-family:var(--syne);letter-spacing:.04em;
+        animation:demoBlink 1.2s ease-in-out infinite;
+        box-shadow:0 4px 20px rgba(221,181,90,.35);
+        white-space:nowrap;display:inline-flex;align-items:center;gap:.5rem">
+        ✦ Solicitar análise real →
+      </button>
+      <div style="font-size:.68rem;color:var(--muted);margin-top:.5rem">Esta é uma simulação. Clique para receber sua análise com dados reais.</div>
+    </div>` : '';
+
   c.innerHTML = `
-    <div id="timeline-nav" style="position:sticky;top:0;z-index:99;background:var(--surface);border-bottom:1px solid var(--border);padding:.5rem 0;margin-bottom:1.8rem;overflow-x:auto;white-space:nowrap">
-      <div style="display:inline-flex;gap:.35rem;padding:0 1rem">
-        <button class="tnav-btn active" onclick="navScrollTo('sec-score')">🏆 Score</button>
-        <button class="tnav-btn" onclick="navScrollTo('sec-metrics')">📐 Métricas</button>
-        <button class="tnav-btn" onclick="navScrollTo('sec-gaps')">🔍 Gaps</button>
-        <button class="tnav-btn" onclick="navScrollTo('sec-slides')">↔ Antes/Depois</button>
-        <button class="tnav-btn" onclick="navScrollTo('sec-recs')">🎯 Recomendações</button>
-        <button class="tnav-btn" onclick="navScrollTo('sec-plan')">🔧 Plano</button>
-        <button class="tnav-btn" onclick="navScrollTo('sec-cta')">🚀 Próximos passos</button>
+    <!-- STICKY HEADER + TIMELINE NAV -->
+    <div style="position:sticky;top:0;z-index:99;background:var(--surface);border-bottom:1px solid var(--border);margin-bottom:1.5rem">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:.6rem 0 0;flex-wrap:wrap;gap:.5rem">
+        <div>
+          <div style="font-family:var(--syne);font-size:1rem;font-weight:800;line-height:1.2">Análise PUV Score <span style="font-size:.6em;color:var(--muted);font-weight:400">v0.1.0.9</span></div>
+          <div style="font-size:.75rem;margin-top:.15rem"><a href="${data.url}" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">${data.url} ↗</a></div>
+        </div>
+        <button class="btn-back" onclick="goBack()">← Nova análise</button>
+      </div>
+      <div id="timeline-nav" style="overflow-x:auto;white-space:nowrap;padding:.4rem 0 .5rem">
+        <div style="display:inline-flex;gap:.35rem">
+          <button class="tnav-btn active" onclick="navScrollTo('sec-score')">🏆 Score</button>
+          <button class="tnav-btn" onclick="navScrollTo('sec-metrics')">📐 Métricas</button>
+          <button class="tnav-btn" onclick="navScrollTo('sec-gaps')">🔍 Gaps</button>
+          <button class="tnav-btn" onclick="navScrollTo('sec-slides')">↔ Antes/Depois</button>
+          <button class="tnav-btn" onclick="navScrollTo('sec-recs')">🎯 Recomendações</button>
+          <button class="tnav-btn" onclick="navScrollTo('sec-plan')">🔧 Plano</button>
+          <button class="tnav-btn" onclick="navScrollTo('sec-cta')">🚀 Próximos passos</button>
+        </div>
       </div>
     </div>
-    <div class="report-header">
-      <div class="report-meta">
-        <h2>Análise PUV Score <span style="font-size:.6em;color:var(--muted);font-weight:400">v0.0.6.5</span></h2>
-        <div class="url-tag">${data.url}</div>
-        <div class="bench-tag">${data.benchmark}</div>
+
+
+    <div id="sec-score" class="report-section">
+      <div class="section-timeline-label">01 · Score Global</div>
+      <!-- Score Hero -->
+      <div class="score-hero">
+        <div style="flex-shrink:0;width:100%;max-width:380px">${buildSpeedometer(data.total)}</div>
+        <div class="score-info">
+          <div class="score-number" style="color:${scoreLabel(data.total/100).color}">${data.total}<span style="font-size:1rem;color:var(--muted)">/100</span></div>
+          <div class="score-class" style="background:${scoreLabel(data.total/100).bg};color:${scoreLabel(data.total/100).color}">${scoreLabel(data.total/100).text}</div>
+          <div class="score-summary">${data.summary}</div>
+        </div>
       </div>
-      <button class="btn-back" onclick="goBack()">← Nova análise</button>
-    </div>
+      <!-- Legenda de escala -->
+      <div style="background:var(--card2);border:1px solid var(--border);border-radius:var(--radius-md);padding:1rem 1.25rem;margin-top:1rem">
+        <div style="font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:.75rem">Escala de classificação PUV Score</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:.5rem">
+          ${[
+            {range:'0 – 30',  min:0,  max:30,  desc:'Reformulação urgente'},
+            {range:'31 – 55', min:31, max:55,  desc:'Oportunidades prioritárias'},
+            {range:'56 – 70', min:56, max:70,  desc:'Ajustes pontuais'},
+            {range:'71 – 85', min:71, max:85,  desc:'Refinamentos premium'},
+            {range:'86 – 100',min:86, max:100, desc:'Benchmark do segmento'},
+          ].map(s => {
+            const isActive = data.total >= s.min && data.total <= s.max;
+            const z = zoneForScore(s.min + 1);
+            const isDarkNow = document.documentElement.getAttribute('data-theme') !== 'light';
+            const col = isDarkNow ? z.col : z.colLight;
+            const bg  = isDarkNow ? z.bg  : z.bgLight;
+            return `<div style="border-radius:var(--radius-sm);padding:.6rem .75rem;background:${isActive ? bg : 'transparent'};border:1.5px solid ${isActive ? col : 'var(--border)'};transition:all .2s">
+              <div style="font-size:.65rem;color:var(--muted);margin-bottom:.2rem">${s.range}</div>
+              <div style="font-size:.82rem;font-weight:700;color:${col};margin-bottom:.15rem">${z.text}</div>
+              <div style="font-size:.68rem;color:var(--muted);line-height:1.4">${s.desc}</div>
+              ${isActive ? `<div style="font-size:.6rem;font-weight:700;color:${col};margin-top:.25rem;letter-spacing:.05em">← VOCÊ ESTÁ AQUI</div>` : ''}
+            </div>`;
+          }).join('')}
+        </div>
+      ${demoCTA}
     ${data._contentFailed ? `
     <div style="background:rgba(255,90,110,.08);border:1.5px solid var(--danger);border-radius:var(--radius-md);padding:.9rem 1.1rem;margin-bottom:1.25rem;display:flex;gap:.75rem;align-items:flex-start">
       <span style="font-size:1.2rem;flex-shrink:0">⚠️</span>
@@ -762,7 +1091,31 @@ function renderReport(data){
         </div>
       </div>
     </div>` : ''}
-
+    ${data._isDemo ? `
+    <div id="demo-top-bar" style="
+      position:sticky;top:0;z-index:98;
+      background:rgba(221,181,90,.12);
+      backdrop-filter:blur(12px);
+      -webkit-backdrop-filter:blur(12px);
+      border-bottom:1px solid rgba(221,181,90,.3);
+      padding:.5rem 1rem;
+      display:flex;align-items:center;justify-content:space-between;
+      gap:.75rem;flex-wrap:wrap;
+      margin-bottom:1rem;
+    ">
+      <div style="display:flex;align-items:center;gap:.5rem;font-size:.75rem;color:var(--gold);font-weight:600">
+        <span>🎭</span>
+        <span>Análise simulada — exemplo de funcionamento do PUV Score</span>
+      </div>
+      <button onclick="requestDemoConversion()" style="
+        background:var(--gold);color:var(--btn-on-accent);border:none;
+        border-radius:30px;padding:.35rem .9rem;font-size:.72rem;font-weight:700;
+        cursor:pointer;font-family:var(--syne);white-space:nowrap;
+        animation:demoBlink 1.2s ease-in-out infinite;flex-shrink:0">
+        Quero minha análise real →
+      </button>
+    </div>` : ''}
+    </div>
     <!-- BLOCO DE METODOLOGIA -->
     <div style="background:var(--card2);border:1px solid var(--border);border-radius:var(--radius-md);padding:1rem 1.25rem;margin-bottom:1.5rem;display:flex;flex-wrap:wrap;gap:1rem;align-items:flex-start">
       <div style="flex:1;min-width:220px">
@@ -801,53 +1154,25 @@ function renderReport(data){
         <pre id="json-content" style="padding:1rem;font-size:.72rem;line-height:1.6;color:var(--text2);overflow-x:auto;white-space:pre-wrap;word-break:break-word;max-height:400px;overflow-y:auto;font-family:monospace"></pre>
       </div>
     </div>
-    <div id="sec-score" class="report-section">
-      <div class="section-timeline-label">01 · Score Global</div>
-      <div class="score-hero">
-        <div style="flex-shrink:0;width:260px;max-width:100%">${buildSpeedometer(data.total)}</div>
-        <div class="score-info">
-          <div class="score-number">${data.total}<span style="font-size:1rem;color:var(--muted)">/100</span></div>
-          <div class="score-class" style="background:${scoreLabel(data.total/100).bg};color:${scoreLabel(data.total/100).color}">${scoreLabel(data.total/100).text}</div>
-          <div class="score-summary">${data.summary}</div>
-        </div>
-      </div>
-      <!-- Legenda de escala -->
-      <div style="background:var(--card2);border:1px solid var(--border);border-radius:var(--radius-md);padding:1rem 1.25rem;margin-top:1rem">
-        <div style="font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:.75rem">Escala de classificação PUV Score</div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:.5rem">
-          ${[
-            {range:'0 – 30',  label:'Crítico',    color:'var(--danger)',  bg:'rgba(220,38,38,.1)',   desc:'Reformulação urgente',      min:0,  max:30},
-            {range:'31 – 55', label:'Atenção',    color:'var(--warn)',    bg:'rgba(217,119,6,.1)',   desc:'Oportunidades prioritárias', min:31, max:55},
-            {range:'56 – 70', label:'Adequado',   color:'#E9C46A',       bg:'rgba(233,196,74,.1)',  desc:'Ajustes pontuais',           min:56, max:70},
-            {range:'71 – 85', label:'Sólido',     color:'#00B4FF',       bg:'rgba(0,180,255,.1)',   desc:'Refinamentos premium',       min:71, max:85},
-            {range:'86 – 100',label:'Referência', color:'var(--success)', bg:'rgba(22,163,74,.15)', desc:'Benchmark do segmento',      min:86, max:100},
-          ].map(s => {
-            const isActive = data.total >= s.min && data.total <= s.max;
-            return `<div style="border-radius:var(--radius-sm);padding:.6rem .75rem;background:${isActive ? s.bg : 'transparent'};border:1.5px solid ${isActive ? s.color : 'var(--border)'};transition:all .2s">
-              <div style="font-size:.65rem;color:var(--muted);margin-bottom:.2rem">${s.range}</div>
-              <div style="font-size:.82rem;font-weight:700;color:${s.color};margin-bottom:.15rem">${s.label}</div>
-              <div style="font-size:.68rem;color:var(--muted);line-height:1.4">${s.desc}</div>
-              ${isActive ? `<div style="font-size:.6rem;font-weight:700;color:${s.color};margin-top:.25rem;letter-spacing:.05em">← VOCÊ ESTÁ AQUI</div>` : ''}
-            </div>`;
-          }).join('')}
-        </div>
-      </div>
-    </div>
     <div id="sec-metrics" class="report-section">
       <div class="section-timeline-label" data-tip="Cada critério vale 20 pontos. Total = soma dos 5.">02 · Métricas PUV Score <span class="tip-icon">?</span></div>
       <div class="criteria-list">${critHTML}</div>
+      ${demoCTA}
     </div>
     <div id="sec-gaps" class="report-section">
       <div class="section-timeline-label">03 · Gaps identificados</div>
       <div class="gap-wrap"><table class="gap-table"><thead><tr><th>Como está hoje</th><th>Como deve ser</th></tr></thead><tbody>${gapsHTML}</tbody></table></div>
+      ${demoCTA}
     </div>
     <div id="sec-slides" class="report-section">
       <div class="section-timeline-label">04 · Antes &amp; Depois</div>
       <div class="slides-list">${slidesHTML}</div>
+      ${demoCTA}
     </div>
     <div id="sec-recs" class="report-section">
       <div class="section-timeline-label">05 · Recomendações prioritárias</div>
       <div class="rec-list">${recsHTML}</div>
+      ${demoCTA}
     </div>
     <div id="sec-plan" class="report-section">
       <div class="section-timeline-label">07 · Plano de Implementação</div>
@@ -876,7 +1201,7 @@ function renderReport(data){
           <div style="font-size:.85rem;font-weight:600;color:var(--text);margin-bottom:.2rem">Plano detalhado gerado por IA com contexto da análise</div>
           <div style="font-size:.75rem;color:var(--muted)">Acesso restrito · equipe FNW · inclui observações do cliente</div>
         </div>
-        <button onclick="showPlan()" id="plan-unlock-btn" style="background:var(--accent);color:#000;border:none;border-radius:var(--radius-sm);padding:.5rem 1.25rem;font-size:.78rem;font-weight:700;cursor:pointer;font-family:var(--syne);white-space:nowrap">
+        <button onclick="showPlan()" id="plan-unlock-btn" style="background:var(--accent);color:var(--btn-on-accent);border:none;border-radius:var(--radius-sm);padding:.5rem 1.25rem;font-size:.78rem;font-weight:700;cursor:pointer;font-family:var(--syne);white-space:nowrap">
           🔓 Gerar plano com IA
         </button>
       </div>
@@ -947,6 +1272,8 @@ function renderReport(data){
   requestAnimationFrame(() => {
     setTimeout(() => {
       document.querySelectorAll('.meter-fill').forEach(el => { el.style.width = el.dataset.pct + '%'; });
+      // Animate speedometer needle
+      animateNeedle(window._speedoUid, data.total, 100, 160, 148, 105);
     }, 150);
   });
 
@@ -1591,7 +1918,23 @@ function clearCaptured(){
   history.replaceState(null, '', window.location.pathname + window.location.search);
 }
 
+function toggleAccordion(){
+  const body = document.getElementById('accordion-body');
+  const icon = document.getElementById('accordion-icon');
+  const open = body.style.display !== 'none';
+  body.style.display = open ? 'none' : 'block';
+  icon.style.transform = open ? '' : 'rotate(180deg)';
+}
+
 function saveApiKey(v){ localStorage.setItem('puvscore-apikey', v); }
+
+function requestDemoConversion(){
+  const msg = encodeURIComponent(
+    `Olá! Acabei de ver a demonstração do PUV Score e quero solicitar a análise real da minha presença digital.\n\n` +
+    `Podem me passar mais informações sobre como funciona e o investimento?`
+  );
+  window.open(`https://wa.me/5511911595028?text=${msg}`, '_blank');
+}
 
 function requestAudit(){
   const data = window.currentData || {};
@@ -1613,7 +1956,152 @@ Podem me passar mais informações sobre o processo e investimento?`;
   window.open(`https://wa.me/5511911595028?text=${encodeURIComponent(msg)}`, '_blank');
 }
 function loadApiKey(){ const k = localStorage.getItem('puvscore-apikey')||''; const el = document.getElementById('api-key'); if(el && k) el.value = k; }
-function loadDemo(){ renderReport(DEMO); }
+// ── DEMO LOADING ─────────────────────────────────────────────────────────────
+const DEMO_LOADING_SECONDS = 14; // ← duração do loading após clicar Analisar
+const DEMO_URL_DISPLAY = 'https://puv-score.vercel.app'; // ← URL da demo
+const DEMO_TYPE = 'site'; // ← tipo selecionado na demo
+
+const DEMO_STEPS = [
+  'Lendo conteúdo da URL...',
+  'Identificando segmento e mercado...',
+  'Aplicando framework PUV Score...',
+  'Calculando métricas por critério...',
+  'Gerando slides Antes & Depois...',
+  'Finalizando relatório...',
+];
+
+function loadDemo(){
+  // Apply any saved URLs to demo data objects
+  DEMO_SITE.url      = demoUrls.site;
+  DEMO_INSTAGRAM.url = demoUrls.instagram;
+  updateDemoLabels();
+  showScreen('screen-demo-choice');
+}
+
+function startDemo(type){
+  const defaults = {
+    site:      'https://puv-score.vercel.app',
+    instagram: 'https://instagram.com/bio.tq',
+  };
+  const currentUrl = demoUrls[type];
+  const isDefault  = currentUrl === defaults[type];
+
+  // If URL is the default → use hardcoded demo data
+  // If URL was changed by admin → run real Groq analysis
+  if(isDefault){
+    _runDemoSimulation(type, currentUrl, type === 'instagram' ? DEMO_INSTAGRAM : DEMO_SITE);
+  } else {
+    _runDemoSimulation(type, currentUrl, null); // null = fetch + analyze for real
+  }
+}
+
+async function _runDemoSimulation(type, demoUrl, demoData){
+  const urlInput    = document.getElementById('url-input');
+  const nameInput   = document.getElementById('lead-name');
+  const emailInput  = document.getElementById('lead-email');
+  const companyInput= document.getElementById('lead-company');
+  const analyzeBtn  = document.getElementById('btn-analyze');
+  const typeGrid    = document.querySelector('.type-grid');
+  const typeBtn     = document.getElementById('type-' + type);
+
+  showScreen('screen-input');
+  document.querySelectorAll('.type-btn:not(.coming-soon)').forEach(b => b.classList.remove('active'));
+  if(urlInput)     urlInput.value = '';
+  if(nameInput)    nameInput.value = '';
+  if(emailInput)   emailInput.value = '';
+  if(companyInput) companyInput.value = '';
+
+  function highlight(el, on){ if(!el) return; el.style.transition='box-shadow .3s'; el.style.boxShadow=on?'0 0 0 3px var(--accent), 0 0 16px rgba(0,224,255,.3)':''; }
+  function scrollToCenter(el){ if(el) el.scrollIntoView({behavior:'smooth', block:'center'}); }
+
+  let toastEl = document.getElementById('demo-toast');
+  if(!toastEl){
+    toastEl = document.createElement('div');
+    toastEl.id = 'demo-toast';
+    toastEl.style.cssText = 'position:fixed;top:1.25rem;left:50%;transform:translateX(-50%);background:var(--surface);border:1.5px solid var(--accent-bdr);border-radius:30px;padding:.5rem 1.25rem;font-size:.8rem;font-weight:600;color:var(--accent);box-shadow:0 8px 24px rgba(0,0,0,.3);z-index:2000;pointer-events:none;opacity:0;transition:opacity .3s;white-space:nowrap;';
+    document.body.appendChild(toastEl);
+  }
+  function showToast(msg){ toastEl.textContent=msg; toastEl.style.opacity='1'; }
+  function hideToast(){ toastEl.style.opacity='0'; }
+
+  function typeInto(el, text, duration){
+    return new Promise(resolve => {
+      const delay = duration / text.length;
+      let i = 0;
+      const iv = setInterval(() => {
+        if(i < text.length){ el.value = text.substring(0, i+1); i++; }
+        else { clearInterval(iv); resolve(); }
+      }, delay);
+    });
+  }
+
+  let t = 0;
+
+  // Step 1 — type selector
+  setTimeout(() => { showToast('① Escolha o tipo de análise'); scrollToCenter(typeGrid); highlight(typeGrid, true); }, t += 600);
+  setTimeout(() => { highlight(typeGrid, false); if(typeBtn){ scrollToCenter(typeBtn); typeBtn.classList.add('active'); highlight(typeBtn,true); typeBtn.style.transform='scale(1.08)'; setTimeout(()=>{typeBtn.style.transform='';highlight(typeBtn,false);},400); } }, t += 2400);
+
+  // Step 2 — URL
+  setTimeout(() => { showToast('② Cole a URL que quer analisar'); scrollToCenter(urlInput); highlight(urlInput, true); }, t += 1200);
+  setTimeout(async () => { await typeInto(urlInput, demoUrl, 2800); highlight(urlInput, false); }, t += 400);
+
+  // Step 3 — lead form: name
+  setTimeout(() => { showToast('③ Digite seu nome'); scrollToCenter(nameInput); highlight(nameInput, true); }, t += 3200);
+  setTimeout(async () => { await typeInto(nameInput, 'Maria Silva', 1200); highlight(nameInput, false); }, t += 400);
+
+  // Step 4 — email
+  setTimeout(() => { showToast('④ Digite seu WhatsApp ou email'); scrollToCenter(emailInput); highlight(emailInput, true); }, t += 1600);
+  setTimeout(async () => { await typeInto(emailInput, 'maria@agencia.com.br', 1400); highlight(emailInput, false); }, t += 400);
+
+  // Step 5 — company
+  setTimeout(() => { showToast('⑤ Digite sua empresa'); scrollToCenter(companyInput); highlight(companyInput, true); }, t += 1800);
+  setTimeout(async () => { await typeInto(companyInput, 'Agência Criativa', 1000); highlight(companyInput, false); }, t += 400);
+
+  // Step 6 — analyze button
+  setTimeout(() => { showToast('⑥ Clique em Analisar'); scrollToCenter(analyzeBtn); highlight(analyzeBtn, true); }, t += 1400);
+  setTimeout(() => { hideToast(); highlight(analyzeBtn,false); if(analyzeBtn){ analyzeBtn.style.transform='scale(0.95)'; analyzeBtn.style.opacity='0.8'; setTimeout(()=>{analyzeBtn.style.transform='';analyzeBtn.style.opacity='';},200); } }, t += 1800);
+
+  setTimeout(async () => {
+    // Hide demo toast before loading
+    const t = document.getElementById('demo-toast');
+    if(t) t.style.opacity = '0';
+    showScreen('screen-loading');
+    const lc = document.querySelector('.loading-center');
+    let ud = document.getElementById('demo-url-display');
+    if(!ud){ ud=document.createElement('div'); ud.id='demo-url-display'; ud.style.cssText='margin:.75rem auto 0;font-family:monospace;font-size:.82rem;color:var(--accent);background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:.5rem 1rem;max-width:320px;display:flex;align-items:center;gap:2px;'; lc.appendChild(ud); }
+    ud.innerHTML = demoUrl + '<span style="display:inline-block;width:2px;height:1em;background:var(--accent);animation:fpulse .6s ease-in-out infinite;vertical-align:middle;margin-left:1px"></span>';
+
+    let si=0; const stepEl=document.getElementById('loading-step'); if(stepEl) stepEl.textContent=DEMO_STEPS[0];
+    const iv=setInterval(()=>{ si=(si+1)%DEMO_STEPS.length; if(stepEl) stepEl.textContent=DEMO_STEPS[si]; },(DEMO_LOADING_SECONDS*1000)/DEMO_STEPS.length);
+
+    if(demoData){
+      // Hardcoded demo — mark as simulation
+      demoData._isDemo = true;
+      setTimeout(()=>{ clearInterval(iv); if(ud) ud.remove(); renderReport(demoData); }, DEMO_LOADING_SECONDS*1000);
+    } else {
+      // Real Groq analysis
+      const apiKey = document.getElementById('api-key')?.value?.trim();
+      if(!apiKey){
+        clearInterval(iv); if(ud) ud.remove();
+        showScreen('screen-input');
+        setError('Configure a API Key Groq em ⚙ Configurações para analisar esta URL.');
+        return;
+      }
+      try{
+        const content = await fetchContent(demoUrl);
+        const result  = await callGroq(apiKey, demoUrl, content, type);
+        result._type  = type;
+        result._isDemo = true;
+        clearInterval(iv); if(ud) ud.remove();
+        renderReport(result);
+      } catch(err){
+        clearInterval(iv); if(ud) ud.remove();
+        showScreen('screen-input');
+        setError('Erro na análise: ' + err.message);
+      }
+    }
+  }, t += 600);
+}
 function goBack(){ showScreen('screen-input'); window.currentData = null; }
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -1624,8 +2112,124 @@ window.addEventListener('DOMContentLoaded', () => {
   loadApiKey();
   initBookmarklet();
   checkCapturedContent();
+  DEMO_SITE.url      = demoUrls.site;
+  DEMO_INSTAGRAM.url = demoUrls.instagram;
+  updateDemoLabels();
+  initHeroSpeedo();
   document.getElementById('url-input')?.addEventListener('keydown', e => { if(e.key==='Enter') startAnalysis(); });
 });
+
+function initHeroSpeedo(){
+  const cx=130, cy=128, ro=95, ri=68;
+  const zones = [
+    {s:0,  e:30,  col:'#FF4060'},
+    {s:30, e:55,  col:'#E040A0'},
+    {s:55, e:70,  col:'#FF8800'},
+    {s:70, e:85,  col:'#00B4FF'},
+    {s:85, e:100, col:'#00DD66'},
+  ];
+
+  function segAngle(p){ return Math.PI - (p/100)*Math.PI; }
+
+  function arcPath(s, e, gap=1.2){
+    const sA=s+(s===0?0:gap), eA=e-(e===100?0:gap), steps=60;
+    let d='';
+    for(let i=0;i<=steps;i++){ const t=i/steps,p=sA+t*(eA-sA),a=segAngle(p); d+=i===0?`M${cx+ro*Math.cos(a)},${cy-ro*Math.sin(a)}`:`L${cx+ro*Math.cos(a)},${cy-ro*Math.sin(a)}`; }
+    for(let i=steps;i>=0;i--){ const t=i/steps,p=sA+t*(eA-sA),a=segAngle(p); d+=`L${cx+ri*Math.cos(a)},${cy-ri*Math.sin(a)}`; }
+    return d+'Z';
+  }
+  function arcBgPath(s, e){ return arcPath(s, e, 0); }
+
+  // Draw static arcs
+  zones.forEach((z,i) => {
+    document.getElementById('hbg'+(i+1))?.setAttribute('d', arcBgPath(z.s, z.e));
+    const el = document.getElementById('harc'+(i+1));
+    if(el){ el.setAttribute('d', arcPath(z.s, z.e)); el.setAttribute('fill', z.col); }
+  });
+
+  // Draw ticks
+  const tg = document.getElementById('hero-ticks');
+  if(tg){
+    let tickHtml = '';
+    for(let i=0;i<=50;i++){
+      const p=i*2, a=segAngle(p), isMajor=p%10===0, isMid=p%5===0&&!isMajor;
+      const o1=ro+2, o2=isMajor?ro+12:isMid?ro+8:ro+5;
+      const sw=isMajor?1.2:isMid?0.8:0.5;
+      const op=isMajor?0.55:isMid?0.28:0.15;
+      tickHtml+=`<line x1="${(cx+o1*Math.cos(a)).toFixed(1)}" y1="${(cy-o1*Math.sin(a)).toFixed(1)}" x2="${(cx+o2*Math.cos(a)).toFixed(1)}" y2="${(cy-o2*Math.sin(a)).toFixed(1)}" stroke="rgba(255,255,255,${op})" stroke-width="${sw}" stroke-linecap="round"/>`;
+    }
+    tg.innerHTML = tickHtml;
+  }
+
+  // Position fixed elements
+  document.getElementById('hero-hub')?.setAttribute('cx', cx);
+  document.getElementById('hero-hub')?.setAttribute('cy', cy);
+  document.getElementById('hero-dot')?.setAttribute('cx', cx);
+  document.getElementById('hero-dot')?.setAttribute('cy', cy);
+  const scoreEl = document.getElementById('hero-score');
+  const ptsEl   = document.getElementById('hero-pts');
+  if(scoreEl){ scoreEl.setAttribute('x', cx); scoreEl.setAttribute('y', cy+34); }
+  if(ptsEl)  { ptsEl.setAttribute('x', cx); ptsEl.setAttribute('y', cy+50); }
+
+  // Animation: oscillate through scores
+  const waypoints = [10,35,58,74,91,74,58,35,10,28,64,85,49];
+  let wp=0, currentScore=10, targetScore=waypoints[0];
+  let animFrame=null, transitioning=false, progress=0;
+  const DURATION = 2200;
+
+  function zoneColor(s){ return getZoneColor(s); }
+
+  function setNeedle(score){
+    const a = segAngle(score);
+    const nx = cx + 90*Math.cos(a), ny = cy - 90*Math.sin(a);
+    const col = zoneColor(score);
+    document.getElementById('hero-needle')?.setAttribute('x1',cx);
+    document.getElementById('hero-needle')?.setAttribute('y1',cy);
+    document.getElementById('hero-needle')?.setAttribute('x2',nx.toFixed(1));
+    document.getElementById('hero-needle')?.setAttribute('y2',ny.toFixed(1));
+    document.getElementById('hero-shadow')?.setAttribute('x1',cx);
+    document.getElementById('hero-shadow')?.setAttribute('y1',cy);
+    document.getElementById('hero-shadow')?.setAttribute('x2',nx.toFixed(1));
+    document.getElementById('hero-shadow')?.setAttribute('y2',ny.toFixed(1));
+    if(scoreEl){ scoreEl.textContent=Math.round(score); scoreEl.setAttribute('fill',col); }
+    document.getElementById('hero-dot')?.setAttribute('fill',col);
+    // Highlight active zone
+    zones.forEach((z,i)=>{
+      const el=document.getElementById('harc'+(i+1));
+      if(!el) return;
+      const active = score>=z.s && score<=z.e;
+      el.setAttribute('opacity', active?'1':'0.6');
+    });
+  }
+
+  function easeInOut(t){ return t<0.5?2*t*t:1-Math.pow(-2*t+2,2)/2; }
+
+  let lastTs = null;
+  function animate(ts){
+    if(!lastTs) lastTs=ts;
+    const dt = ts - lastTs; lastTs=ts;
+    progress += dt/DURATION;
+    if(progress>=1){
+      progress=0;
+      currentScore=targetScore;
+      wp=(wp+1)%waypoints.length;
+      targetScore=waypoints[wp];
+    }
+    const e = easeInOut(Math.min(progress,1));
+    const score = currentScore + (targetScore-currentScore)*e;
+    setNeedle(score);
+    animFrame=requestAnimationFrame(animate);
+  }
+
+  setNeedle(currentScore);
+  animFrame=requestAnimationFrame(animate);
+
+  // Pause when tab not visible
+  document.addEventListener('visibilitychange',()=>{
+    if(document.hidden){ cancelAnimationFrame(animFrame); }
+    else { lastTs=null; animFrame=requestAnimationFrame(animate); }
+  });
+}
 </script>
 </body>
 </html>
