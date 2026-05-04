@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>PUV Score v0.1.1.0 — Análise Estratégica para Agências</title>
+<title>PUV Score v0.1.2.0 — Análise Estratégica para Agências</title>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -83,6 +83,9 @@ body{background:var(--bg);color:var(--text);font-family:var(--inter);min-height:
 .theme-btn.active{background:var(--accent);color:var(--btn-on-accent)}
 input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer}
 .settings-api-input{width:100%;background:var(--bg);border:1.5px solid var(--border2);border-radius:var(--radius-sm);padding:.55rem .75rem;font-size:.8rem;color:var(--text);outline:none;font-family:var(--inter)}
+.ia-key-st{font-size:.65rem;margin-top:.25rem;display:block;color:var(--muted)}
+.ia-key-st.ok{color:var(--success)}
+.ia-key-st.err{color:var(--danger)}
 
 /* TOOLTIP */
 [data-tip]{position:relative;cursor:help}
@@ -334,18 +337,77 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer}
     <div style="display:flex;justify-content:space-between;font-size:.65rem;color:var(--muted)"><span>A</span><span style="font-size:.85rem">A</span><span style="font-size:1rem">A</span></div>
   </div>
   <div class="setting-row">
-    <div class="setting-label" style="display:flex;align-items:center;gap:.3rem">
-      🔑 API Key Groq
-      <span data-tip="Chave gratuita em console.groq.com/keys. Nunca sai do seu browser." class="tip-icon">?</span>
+    <div class="setting-label" style="margin-bottom:.5rem">🔑 Configuração de IA</div>
+
+    <!-- OpenRouter -->
+    <div style="margin-bottom:.5rem">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.25rem">
+        <span style="font-size:.72rem;font-weight:600;color:var(--text2)">OpenRouter</span>
+        <a href="https://openrouter.ai/keys" target="_blank" style="font-size:.62rem;color:var(--accent);text-decoration:none;border:1px solid var(--border2);padding:2px 7px;border-radius:6px">↗ Criar chave</a>
+      </div>
+      <input type="password" class="settings-api-input" id="ia-openrouter-key" placeholder="sk-or-..." oninput="iaKit.salvarOpenRouterKey()" autocomplete="off"/>
+      <span class="ia-key-st" id="ia-openrouter-status">—</span>
     </div>
-    <input type="password" class="settings-api-input" id="api-key" placeholder="gsk_..." oninput="saveApiKey(this.value)" autocomplete="off"/>
-    <div style="font-size:.65rem;color:var(--muted);margin-top:.2rem"><a href="https://console.groq.com/keys" target="_blank" style="color:var(--accent);text-decoration:none">Obter chave gratuita →</a></div>
+
+    <!-- Modelo -->
+    <div style="margin-bottom:.5rem">
+      <div style="font-size:.72rem;font-weight:600;color:var(--text2);margin-bottom:.25rem">Modelo</div>
+      <select id="ia-modelo-select" onchange="iaKit.salvarModelo()" style="width:100%;background:var(--bg);border:1.5px solid var(--border2);border-radius:var(--radius-sm);padding:.45rem .65rem;font-size:.76rem;color:var(--text);outline:none;font-family:var(--inter)">
+        <optgroup label="🆓 Gratuitos">
+          <option value="openrouter/free">🔀 Auto — melhor gratuito</option>
+          <option value="deepseek/deepseek-r1:free">DeepSeek R1</option>
+          <option value="deepseek/deepseek-chat-v3-0324:free">DeepSeek V3</option>
+          <option value="meta-llama/llama-3.3-70b-instruct:free">Llama 3.3 70B</option>
+          <option value="qwen/qwen3-235b-a22b:free">Qwen3 235B</option>
+          <option value="mistralai/mistral-small-3.1-24b-instruct:free">Mistral Small 3.1</option>
+        </optgroup>
+        <optgroup label="💳 Pagos">
+          <option value="deepseek/deepseek-chat">DeepSeek V3 (pago)</option>
+          <option value="deepseek/deepseek-r1">DeepSeek R1 (pago)</option>
+          <option value="anthropic/claude-sonnet-4-5">Claude Sonnet 4.5</option>
+          <option value="openai/gpt-4o-mini">GPT-4o Mini</option>
+        </optgroup>
+      </select>
+      <span style="font-size:.6rem;color:var(--muted);margin-top:.2rem;display:block">Gratuitos não precisam de créditos</span>
+    </div>
+
+    <!-- Groq fallback -->
+    <div style="border-top:1px solid var(--border);padding-top:.5rem">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.25rem">
+        <span style="font-size:.68rem;color:var(--muted)">Groq direto (fallback)</span>
+        <a href="https://console.groq.com/keys" target="_blank" style="font-size:.62rem;color:var(--accent);text-decoration:none;border:1px solid var(--border2);padding:2px 7px;border-radius:6px">↗ Criar chave</a>
+      </div>
+      <input type="password" class="settings-api-input" id="ia-groq-key" placeholder="gsk_..." oninput="iaKit.salvarGroqKey()" autocomplete="off"/>
+      <span class="ia-key-st" id="ia-groq-status">—</span>
+    </div>
+    <div style="font-size:.6rem;color:var(--muted);margin-top:.4rem">Prioridade: OpenRouter → Groq direto</div>
+  </div>
+  <div class="setting-row" style="border-top:1px solid var(--border);padding-top:.75rem">
+    <div class="setting-label" style="margin-bottom:.5rem">🔖 Captura instantânea</div>
+    <p style="font-size:.7rem;color:var(--muted);line-height:1.55;margin-bottom:.6rem">Arraste o botão para a barra de favoritos. Em qualquer site, clique nele para capturar e analisar.</p>
+    <div style="display:flex;gap:.5rem;align-items:center;flex-wrap:wrap">
+      <a id="bookmarklet-link" href="#"
+        style="background:var(--accent);color:var(--btn-on-accent);border-radius:var(--radius-sm);padding:.4rem .85rem;font-size:.75rem;font-weight:700;text-decoration:none;font-family:var(--syne);cursor:grab;white-space:nowrap;user-select:none"
+        title="ARRASTE para a barra de favoritos">
+        📊 PUV Score
+      </a>
+      <span style="font-size:.68rem;color:var(--muted)">← arraste para favoritos</span>
+    </div>
+    <div id="bm-copy-row" style="display:none;margin-top:.5rem;flex-direction:column;gap:.35rem">
+      <div style="font-size:.68rem;color:var(--warn);font-weight:600">Instalar manualmente:</div>
+      <div style="font-size:.65rem;color:var(--muted);line-height:1.5">1. Crie um favorito no browser<br>2. Cole o código abaixo no campo URL<br>3. Salve como "PUV Score"</div>
+      <div style="display:flex;gap:.35rem">
+        <textarea id="bm-code-area" rows="2" readonly style="flex:1;background:var(--bg);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:.4rem .5rem;font-size:.6rem;color:var(--text2);font-family:monospace;resize:none;outline:none"></textarea>
+        <button onclick="copyBookmarklet()" style="background:var(--accent-bg);border:1px solid var(--accent-bdr);color:var(--accent);border-radius:var(--radius-sm);padding:.3rem .6rem;font-size:.68rem;font-weight:600;cursor:pointer;font-family:var(--inter);white-space:nowrap;align-self:flex-start">Copiar</button>
+      </div>
+    </div>
   </div>
   <div class="setting-row" style="border-top:1px solid var(--border);padding-top:.75rem">
     <div class="setting-label" style="margin-bottom:.5rem">🔐 Admin</div>
     <div style="display:flex;flex-direction:column;gap:.35rem">
       <button onclick="adminChangeUrl('site')" style="background:var(--card2);border:1px solid var(--border2);color:var(--text2);border-radius:var(--radius-sm);padding:.4rem .75rem;font-size:.72rem;font-weight:600;cursor:pointer;font-family:var(--inter);text-align:left">🌐 Alterar URL demo Site</button>
       <button onclick="adminChangeUrl('instagram')" style="background:var(--card2);border:1px solid var(--border2);color:var(--text2);border-radius:var(--radius-sm);padding:.4rem .75rem;font-size:.72rem;font-weight:600;cursor:pointer;font-family:var(--inter);text-align:left">📸 Alterar URL demo Instagram</button>
+      <button onclick="adminChangeUrl('youtube')" style="background:var(--card2);border:1px solid var(--border2);color:var(--text2);border-radius:var(--radius-sm);padding:.4rem .75rem;font-size:.72rem;font-weight:600;cursor:pointer;font-family:var(--inter);text-align:left"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" style="display:inline;vertical-align:middle;margin-right:4px"><rect x="2" y="5" width="20" height="14" rx="4" stroke="currentColor" stroke-width="2"/><path d="M10 9.5l5 2.5-5 2.5V9.5z" fill="currentColor"/></svg> Alterar URL demo YouTube</button>
     </div>
   </div>
 </div>
@@ -366,7 +428,7 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer}
             <div style="font-size:.62rem;color:var(--muted);letter-spacing:.04em;margin-top:.05rem">FNW Advisory &amp; Partners</div>
           </div>
         </div>
-        <span class="version-tag">v0.1.1.0</span>
+        <span class="version-tag">v0.1.2.0</span>
       </div>
       <!-- HERO: 2 colunas — esquerda texto, direita velocímetro -->
       <div style="display:grid;grid-template-columns:1fr auto;gap:1.25rem;align-items:center;margin-bottom:1.5rem">
@@ -411,7 +473,7 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer}
       <div class="type-grid">
         <button class="type-btn active" id="type-site" onclick="selectType('site')"><span class="type-icon">🌐</span><span class="type-name">Site</span></button>
         <button class="type-btn" id="type-instagram" onclick="selectType('instagram')"><span class="type-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="20" height="20" rx="5.5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></span><span class="type-name">Instagram</span></button>
-        <button class="type-btn coming-soon"><span class="type-icon">🎬</span><span class="type-name">YouTube</span><span class="type-soon">em breve</span></button>
+        <button class="type-btn" id="type-youtube" onclick="selectType('youtube')"><span class="type-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="5" width="20" height="14" rx="4" stroke="currentColor" stroke-width="1.8"/><path d="M10 9.5l5 2.5-5 2.5V9.5z" fill="currentColor"/></svg></span><span class="type-name">YouTube</span></button>
         <button class="type-btn coming-soon"><span class="type-icon">📢</span><span class="type-name">Anúncio</span><span class="type-soon">em breve</span></button>
         <button class="type-btn coming-soon"><span class="type-icon">💼</span><span class="type-name">LinkedIn</span><span class="type-soon">em breve</span></button>
         <button class="type-btn coming-soon"><span class="type-icon">🛒</span><span class="type-name">E‑commerce</span><span class="type-soon">em breve</span></button>
@@ -451,44 +513,6 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer}
           style="padding:.85rem 2.5rem;font-size:.95rem;border-radius:var(--radius-md)">
           Analisar agora →
         </button>
-      </div>
-
-      <!-- BOOKMARKLET -->
-      <div id="bookmarklet-section" style="margin-top:1.25rem;background:var(--card2);border:1px solid var(--border);border-radius:var(--radius-md);padding:.9rem 1.1rem">
-        <div style="font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem">
-          🔖 Captura instantânea — sem proxy
-        </div>
-        <p style="font-size:.78rem;color:var(--text2);line-height:1.6;margin-bottom:.75rem">
-          Instale o botão abaixo na sua barra de favoritos. Em qualquer site, clique nele e o PUV Score abre automaticamente com o conteúdo já capturado.
-        </p>
-        <div style="display:flex;gap:.6rem;align-items:center;flex-wrap:wrap">
-          <a id="bookmarklet-link" href="#"
-            style="background:var(--accent);color:var(--btn-on-accent);border-radius:var(--radius-sm);padding:.5rem 1rem;font-size:.78rem;font-weight:700;text-decoration:none;font-family:var(--syne);cursor:grab;white-space:nowrap;user-select:none"
-            title="ARRASTE para a barra de favoritos — não clique">
-            📊 PUV Score
-          </a>
-          <div>
-            <div style="font-size:.75rem;font-weight:600;color:var(--text2)">← Arraste para a barra de favoritos</div>
-            <div style="font-size:.68rem;color:var(--muted)">Se não conseguir arrastar, clique para copiar o código</div>
-          </div>
-        </div>
-        <!-- Fallback: copy bookmarklet code manually -->
-        <div id="bm-copy-row" style="display:none;margin-top:.6rem;flex-direction:column;gap:.4rem">
-          <div style="font-size:.72rem;color:var(--warn);font-weight:600">Como instalar manualmente:</div>
-          <div style="font-size:.7rem;color:var(--text2);line-height:1.6">
-            1. Crie um favorito manualmente no browser<br>
-            2. No campo "URL" do favorito, cole o código abaixo<br>
-            3. Salve com o nome "PUV Score"
-          </div>
-          <div style="display:flex;gap:.4rem">
-            <textarea id="bm-code-area" rows="2" readonly
-              style="flex:1;background:var(--card);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:.5rem;font-size:.62rem;color:var(--text2);font-family:monospace;resize:none;outline:none"></textarea>
-            <button onclick="copyBookmarklet()" style="background:var(--accent-bg);border:1px solid var(--accent-bdr);color:var(--accent);border-radius:var(--radius-sm);padding:.4rem .75rem;font-size:.7rem;font-weight:600;cursor:pointer;font-family:var(--inter);white-space:nowrap">Copiar</button>
-          </div>
-        </div>
-        <p style="font-size:.68rem;color:var(--muted);margin-top:.5rem;line-height:1.5">
-          Funciona em qualquer site. O conteúdo é capturado localmente — nenhum dado sai do seu browser.
-        </p>
       </div>
 
       <!-- CAPTURED CONTENT BANNER -->
@@ -582,28 +606,39 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer}
       <h2 style="font-family:var(--syne);font-size:1.5rem;font-weight:800;margin-bottom:.5rem">Escolha o tipo de análise</h2>
       <p style="font-size:.88rem;color:var(--muted);line-height:1.6">Selecione o objeto para ver um exemplo real de relatório PUV Score.</p>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;width:100%">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;width:100%">
       <!-- Site -->
-      <div onclick="startDemo('site')" style="background:var(--card);border:1.5px solid var(--border2);border-radius:var(--radius-lg);padding:1.5rem 1rem;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:.75rem"
+      <div onclick="startDemo('site')" style="background:var(--card);border:1.5px solid var(--border2);border-radius:var(--radius-lg);padding:1.25rem .75rem;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:.6rem"
         onmouseover="this.style.borderColor='var(--accent)';this.style.transform='translateY(-2px)'"
         onmouseout="this.style.borderColor='var(--border2)';this.style.transform=''">
-        <span style="font-size:2.5rem">🌐</span>
-        <div>
-          <div style="font-family:var(--syne);font-size:1rem;font-weight:700;margin-bottom:.25rem">Site</div>
-          <div style="font-size:.72rem;color:var(--muted);line-height:1.5">Landing page SaaS</div>
+        <span style="font-size:2rem">🌐</span>
+        <div style="text-align:center">
+          <div style="font-family:var(--syne);font-size:.95rem;font-weight:700;margin-bottom:.2rem">Site</div>
+          <div style="font-size:.68rem;color:var(--muted);line-height:1.4">Landing page SaaS</div>
         </div>
-        <div id="demo-label-site" style="font-size:.65rem;color:var(--accent);font-weight:600;background:var(--accent-bg);padding:.2rem .6rem;border-radius:30px">puv-score.vercel.app</div>
+        <div id="demo-label-site" style="font-size:.62rem;color:var(--accent);font-weight:600;background:var(--accent-bg);padding:.2rem .6rem;border-radius:30px;text-align:center">puv-score.vercel.app</div>
       </div>
       <!-- Instagram -->
-      <div onclick="startDemo('instagram')" style="background:var(--card);border:1.5px solid var(--border2);border-radius:var(--radius-lg);padding:1.5rem 1rem;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:.75rem"
+      <div onclick="startDemo('instagram')" style="background:var(--card);border:1.5px solid var(--border2);border-radius:var(--radius-lg);padding:1.25rem .75rem;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:.6rem"
         onmouseover="this.style.borderColor='var(--accent)';this.style.transform='translateY(-2px)'"
         onmouseout="this.style.borderColor='var(--border2)';this.style.transform=''">
-        <span style="font-size:2.5rem;line-height:1;color:var(--text2)"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="20" height="20" rx="5.5" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.5"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor"/></svg></span>
-        <div>
-          <div style="font-family:var(--syne);font-size:1rem;font-weight:700;margin-bottom:.25rem">Instagram</div>
-          <div style="font-size:.72rem;color:var(--muted);line-height:1.5">Perfil analisado</div>
+        <span style="font-size:2rem;line-height:1;color:var(--text2)"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="20" height="20" rx="5.5" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.5"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor"/></svg></span>
+        <div style="text-align:center">
+          <div style="font-family:var(--syne);font-size:.95rem;font-weight:700;margin-bottom:.2rem">Instagram</div>
+          <div style="font-size:.68rem;color:var(--muted);line-height:1.4">Perfil analisado</div>
         </div>
-        <div id="demo-label-instagram" style="font-size:.65rem;color:var(--accent);font-weight:600;background:var(--accent-bg);padding:.2rem .6rem;border-radius:30px">@bio.tq</div>
+        <div id="demo-label-instagram" style="font-size:.62rem;color:var(--accent);font-weight:600;background:var(--accent-bg);padding:.2rem .6rem;border-radius:30px;text-align:center">@bio.tq</div>
+      </div>
+      <!-- YouTube -->
+      <div onclick="startDemo('youtube')" style="background:var(--card);border:1.5px solid var(--border2);border-radius:var(--radius-lg);padding:1.25rem .75rem;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:.6rem"
+        onmouseover="this.style.borderColor='var(--accent)';this.style.transform='translateY(-2px)'"
+        onmouseout="this.style.borderColor='var(--border2)';this.style.transform=''">
+        <span style="font-size:2rem;line-height:1;color:var(--text2)"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="5" width="20" height="14" rx="4" stroke="currentColor" stroke-width="1.5"/><path d="M10 9.5l5 2.5-5 2.5V9.5z" fill="currentColor"/></svg></span>
+        <div style="text-align:center">
+          <div style="font-family:var(--syne);font-size:.95rem;font-weight:700;margin-bottom:.2rem">YouTube</div>
+          <div style="font-size:.68rem;color:var(--muted);line-height:1.4">Canal analisado</div>
+        </div>
+        <div id="demo-label-youtube" style="font-size:.62rem;color:var(--accent);font-weight:600;background:var(--accent-bg);padding:.2rem .6rem;border-radius:30px;text-align:center">Análise real via IA</div>
       </div>
     </div>
     <button onclick="goBack()" style="background:none;border:none;color:var(--muted);font-size:.78rem;cursor:pointer;font-family:var(--inter);text-decoration:underline">← Voltar</button>
@@ -632,17 +667,20 @@ const ADMIN_PWD = '1234A$';
 let demoUrls = {
   site:      localStorage.getItem('demo-url-site')      || 'https://puv-score.vercel.app',
   instagram: localStorage.getItem('demo-url-instagram') || 'https://instagram.com/bio.tq',
+  youtube:   localStorage.getItem('demo-url-youtube')   || 'https://youtube.com/@google',
 };
 function updateDemoLabels(){
   const siteEl = document.getElementById('demo-label-site');
   const igEl   = document.getElementById('demo-label-instagram');
+  const ytEl   = document.getElementById('demo-label-youtube');
   if(siteEl) siteEl.textContent = demoUrls.site.replace(/https?:\/\//,'');
   if(igEl)   igEl.textContent   = demoUrls.instagram.replace(/https?:\/\//,'');
+  if(ytEl)   ytEl.textContent   = demoUrls.youtube.replace(/https?:\/\//,'');
 }
 
 function adminChangeUrl(type){
-  if(!type || (type !== 'site' && type !== 'instagram')){
-    type = prompt('Qual URL alterar? Digite: site ou instagram');
+  if(!type || !['site','instagram','youtube'].includes(type)){
+    type = prompt('Qual URL alterar? Digite: site, instagram ou youtube');
     if(!type) return;
     type = type.trim().toLowerCase();
   }
@@ -652,7 +690,6 @@ function adminChangeUrl(type){
   if(newUrl && newUrl.trim()){
     demoUrls[type] = newUrl.trim();
     localStorage.setItem(`demo-url-${type}`, newUrl.trim());
-    // Update DEMO_INSTAGRAM url so simulation uses it
     if(type === 'instagram') DEMO_INSTAGRAM.url = newUrl.trim();
     if(type === 'site') DEMO_SITE.url = newUrl.trim();
     updateDemoLabels();
@@ -1024,7 +1061,7 @@ function renderReport(data){
     <div style="position:sticky;top:0;z-index:99;background:var(--surface);border-bottom:1px solid var(--border);margin-bottom:1.5rem">
       <div style="display:flex;justify-content:space-between;align-items:center;padding:.6rem 0 0;flex-wrap:wrap;gap:.5rem">
         <div>
-          <div style="font-family:var(--syne);font-size:1rem;font-weight:800;line-height:1.2">Análise PUV Score <span style="font-size:.6em;color:var(--muted);font-weight:400">v0.1.1.0</span></div>
+          <div style="font-family:var(--syne);font-size:1rem;font-weight:800;line-height:1.2">Análise PUV Score <span style="font-size:.6em;color:var(--muted);font-weight:400">v0.1.2.0</span></div>
           <div style="font-size:.75rem;margin-top:.15rem"><a href="${data.url}" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">${data.url} ↗</a></div>
         </div>
         <button class="btn-back" onclick="goBack()">← Nova análise</button>
@@ -1301,7 +1338,7 @@ function selectType(type){
   selectedType = type;
   document.querySelectorAll('.type-btn:not(.coming-soon)').forEach(b => b.classList.remove('active'));
   document.getElementById(`type-${type}`)?.classList.add('active');
-  document.getElementById('url-input').placeholder = type==='site' ? 'https://seusite.com.br' : 'https://instagram.com/seuperfil';
+  document.getElementById('url-input').placeholder = type==='site' ? 'https://seusite.com.br' : type==='instagram' ? 'https://instagram.com/seuperfil' : type==='youtube' ? 'https://youtube.com/@seucanal' : 'https://';
 }
 
 function getLeadData(){
@@ -1382,7 +1419,7 @@ NÃO invente segmento, produtos ou textos que não foram confirmados.`;
 }
 
 async function callGroq(apiKey, url, content, objectType='site'){
-  const typeLabel = {site:'Site/Landing Page', instagram:'Perfil Instagram'}[objectType] || objectType;
+  const typeLabel = {site:'Site/Landing Page', instagram:'Perfil Instagram', youtube:'Canal YouTube'}[objectType] || objectType;
 
   // Extract domain name for context
   const domain = url.replace(/https?:\/\//,'').split('/')[0].replace('www.','');
@@ -1487,33 +1524,8 @@ Retorne APENAS JSON válido (sem markdown):
   ]
 }`;
 
-  const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-    method:'POST',
-    headers:{'Content-Type':'application/json','Authorization':`Bearer ${apiKey}`},
-    body:JSON.stringify({
-      model:'llama-3.3-70b-versatile',
-      max_tokens:2500,
-      temperature:.3,
-      messages:[{role:'user',content:prompt}]
-    })
-  });
-
-  if(!res.ok){
-    const err = await res.json().catch(()=>({}));
-    throw new Error(err.error?.message || `Erro Groq (${res.status})`);
-  }
-
-  const d = await res.json();
-  const raw = d.choices[0].message.content.trim();
-
-  // Extrai JSON mesmo se vier com texto extra antes/depois
-  const match = raw.match(/\{[\s\S]*\}/);
-  if(!match) throw new Error('Resposta da IA não contém JSON válido. Tente novamente.');
-  try{
-    return JSON.parse(match[0]);
-  }catch(e){
-    throw new Error('Erro ao processar resposta da IA. Tente novamente.');
-  }
+  const raw = await iaKit.chamar(prompt);
+  return iaKit.parseJSON(raw);
 }
 
 async function sendToSheets(payload){
@@ -1535,12 +1547,12 @@ async function sendToSheets(payload){
 
 async function startAnalysis(){
   const url    = document.getElementById('url-input').value.trim();
-  const apiKey = document.getElementById('api-key')?.value.trim();
+  const apiKey = iaKit.getGroqKey() || iaKit.getOpenRouterKey(); // compatibilidade
   const lead   = getLeadData();
   setError('');
   if(!url)                    return setError('Cole uma URL para analisar.');
   if(!url.startsWith('http')) return setError('URL inválida. Inclua https://');
-  if(!apiKey)                 return setError('Configure sua API Key Groq em ⚙ Configurações.');
+  if(!apiKey && !iaKit.getOpenRouterKey()) return setError('Configure sua chave de IA em ⚙ Configurações → Configuração de IA.');
 
   document.getElementById('btn-analyze').disabled = true;
   stepIdx = 0; cycleStep();
@@ -1701,8 +1713,8 @@ async function refreshPlan(){
 }
 
 async function generatePlanWithAI(){
-  const apiKey = document.getElementById('api-key')?.value?.trim();
-  if(!apiKey){ alert('Configure sua API Key Groq em ⚙ Configurações para gerar o plano com IA.'); return; }
+  const apiKey = iaKit.getOpenRouterKey() || iaKit.getGroqKey();
+  if(!apiKey){ alert('Configure sua chave de IA em ⚙ Configurações para gerar o plano.'); return; }
 
   const data = window.currentData;
   if(!data) return;
@@ -1828,7 +1840,94 @@ function renderPlanTable(plan, obs){
   }).join('');
 }
 
-// ── BOOKMARKLET ───────────────────────────────────────────────────────────────
+// ── FNW IA Kit v1.0 (integrado ao PUV Score) ─────────────────────────────────
+const iaKit = (() => {
+  const PREFIX = 'puvscore-ia';
+  const get = k => { try { return localStorage.getItem(`${PREFIX}-${k}`) || ''; } catch(e) { return ''; } };
+  const set = (k, v) => { try { localStorage.setItem(`${PREFIX}-${k}`, v); } catch(e) {} };
+
+  function getOpenRouterKey() { return get('openrouter'); }
+  function getGroqKey()       { return get('groq') || localStorage.getItem('puvscore-apikey') || ''; }
+  function getModelo()        { return get('modelo') || 'openrouter/free'; }
+  function getUltimoModelo()  { return window._iaKitUltimoModelo || '—'; }
+
+  function salvarOpenRouterKey(){
+    const k = document.getElementById('ia-openrouter-key')?.value.trim() || '';
+    set('openrouter', k);
+    const st = document.getElementById('ia-openrouter-status');
+    if(st){ st.textContent = k ? '✓ Salva' : '—'; st.className = 'ia-key-st ' + (k ? 'ok' : ''); }
+  }
+  function salvarGroqKey(){
+    const k = document.getElementById('ia-groq-key')?.value.trim() || '';
+    set('groq', k);
+    localStorage.setItem('puvscore-apikey', k); // compatibilidade
+    const st = document.getElementById('ia-groq-status');
+    if(st){ st.textContent = k ? '✓ Salva' : '—'; st.className = 'ia-key-st ' + (k ? 'ok' : ''); }
+  }
+  function salvarModelo(){
+    const m = document.getElementById('ia-modelo-select')?.value || 'openrouter/free';
+    set('modelo', m);
+  }
+  function carregar(){
+    const or = getOpenRouterKey();
+    if(or){ const el=document.getElementById('ia-openrouter-key'); if(el) el.value=or; const st=document.getElementById('ia-openrouter-status'); if(st){st.textContent='✓ Salva';st.className='ia-key-st ok';} }
+    const gk = getGroqKey();
+    if(gk){ const el=document.getElementById('ia-groq-key'); if(el) el.value=gk; const st=document.getElementById('ia-groq-status'); if(st){st.textContent='✓ Salva';st.className='ia-key-st ok';} }
+    const m = getModelo();
+    const sel = document.getElementById('ia-modelo-select');
+    if(sel) sel.value = m;
+  }
+  function parseJSON(str){
+    if(!str) throw new Error('Resposta vazia da IA.');
+    try { return JSON.parse(str); } catch(e) {}
+    let s = str.replace(/```json\s*/gi,'').replace(/```\s*/g,'').trim();
+    try { return JSON.parse(s); } catch(e) {}
+    const m = s.match(/(\{[\s\S]*\}|\[[\s\S]*\])/);
+    if(m) try { return JSON.parse(m[1]); } catch(e) {}
+    const blocks = s.match(/\{[\s\S]*?\}/g) || [];
+    for(let i=blocks.length-1;i>=0;i--){ try { return JSON.parse(blocks[i]); } catch(e) {} }
+    throw new Error('A IA não retornou JSON válido. Tente reformular ou trocar de modelo.');
+  }
+  async function chamar(prompt){
+    const orKey = getOpenRouterKey();
+    const groqKey = getGroqKey();
+    if(!orKey && !groqKey) throw new Error('Configure a chave em ⚙ Configurações → Configuração de IA.');
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 30000);
+    try {
+      if(orKey){
+        const modelo = getModelo();
+        const r = await fetch('https://openrouter.ai/api/v1/chat/completions',{
+          method:'POST', signal:controller.signal,
+          headers:{'Authorization':`Bearer ${orKey}`,'Content-Type':'application/json','HTTP-Referer':window.location.href,'X-Title':document.title},
+          body:JSON.stringify({model:modelo,temperature:0.3,max_tokens:3000,messages:[{role:'user',content:prompt}]})
+        });
+        if(!r.ok){ const err=await r.json().catch(()=>({})); throw new Error(`OpenRouter ${r.status}: ${err.error?.message||''}`); }
+        const d = await r.json();
+        const content = d.choices?.[0]?.message?.content || null;
+        if(!content) throw new Error('Resposta vazia. Tente outro modelo.');
+        window._iaKitUltimoModelo = d.model || modelo;
+        return content;
+      } else {
+        const r = await fetch('https://api.groq.com/openai/v1/chat/completions',{
+          method:'POST', signal:controller.signal,
+          headers:{'Authorization':`Bearer ${groqKey}`,'Content-Type':'application/json'},
+          body:JSON.stringify({model:'llama-3.3-70b-versatile',temperature:0.3,max_tokens:3000,messages:[{role:'user',content:prompt}]})
+        });
+        if(!r.ok) throw new Error(`Groq ${r.status}`);
+        const d = await r.json();
+        const content = d.choices?.[0]?.message?.content || null;
+        if(!content) throw new Error('Resposta vazia do Groq.');
+        window._iaKitUltimoModelo = 'groq/llama-3.3-70b';
+        return content;
+      }
+    } catch(e){
+      if(e.name==='AbortError') throw new Error('Tempo esgotado (30s). Tente Auto ou outro modelo.');
+      throw e;
+    } finally { clearTimeout(timeout); }
+  }
+  return { chamar, parseJSON, carregar, salvarOpenRouterKey, salvarGroqKey, salvarModelo, getUltimoModelo, getGroqKey, getOpenRouterKey };
+})();
 function initBookmarklet(){
   const puvUrl = window.location.href.split('#')[0].split('?')[0];
 
@@ -1983,15 +2082,14 @@ function startDemo(type){
     site:      'https://puv-score.vercel.app',
     instagram: 'https://instagram.com/bio.tq',
   };
-  const currentUrl = demoUrls[type];
-  const isDefault  = currentUrl === defaults[type];
+  const currentUrl = demoUrls[type] || demoUrls.site;
+  const isDefault  = defaults[type] && currentUrl === defaults[type];
 
-  // If URL is the default → use hardcoded demo data
-  // If URL was changed by admin → run real Groq analysis
+  // youtube always runs real analysis; site/instagram use hardcoded if default
   if(isDefault){
     _runDemoSimulation(type, currentUrl, type === 'instagram' ? DEMO_INSTAGRAM : DEMO_SITE);
   } else {
-    _runDemoSimulation(type, currentUrl, null); // null = fetch + analyze for real
+    _runDemoSimulation(type, currentUrl, null);
   }
 }
 
@@ -2080,7 +2178,7 @@ async function _runDemoSimulation(type, demoUrl, demoData){
       setTimeout(()=>{ clearInterval(iv); if(ud) ud.remove(); renderReport(demoData); }, DEMO_LOADING_SECONDS*1000);
     } else {
       // Real Groq analysis
-      const apiKey = document.getElementById('api-key')?.value?.trim();
+      const apiKey = iaKit.getOpenRouterKey() || iaKit.getGroqKey();
       if(!apiKey){
         clearInterval(iv); if(ud) ud.remove();
         showScreen('screen-input');
@@ -2110,6 +2208,7 @@ window.addEventListener('DOMContentLoaded', () => {
   setTheme(t);
   setFontSize(fs);
   loadApiKey();
+  iaKit.carregar();
   initBookmarklet();
   checkCapturedContent();
   DEMO_SITE.url      = demoUrls.site;
