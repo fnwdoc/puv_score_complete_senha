@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>PUV Score v0.1.2.0 — Análise Estratégica para Agências</title>
+<title>PUV Score v0.1.2.1 — Análise Estratégica para Agências</title>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -428,7 +428,7 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer}
             <div style="font-size:.62rem;color:var(--muted);letter-spacing:.04em;margin-top:.05rem">FNW Advisory &amp; Partners</div>
           </div>
         </div>
-        <span class="version-tag">v0.1.2.0</span>
+        <span class="version-tag">v0.1.2.1</span>
       </div>
       <!-- HERO: 2 colunas — esquerda texto, direita velocímetro -->
       <div style="display:grid;grid-template-columns:1fr auto;gap:1.25rem;align-items:center;margin-bottom:1.5rem">
@@ -1061,7 +1061,7 @@ function renderReport(data){
     <div style="position:sticky;top:0;z-index:99;background:var(--surface);border-bottom:1px solid var(--border);margin-bottom:1.5rem">
       <div style="display:flex;justify-content:space-between;align-items:center;padding:.6rem 0 0;flex-wrap:wrap;gap:.5rem">
         <div>
-          <div style="font-family:var(--syne);font-size:1rem;font-weight:800;line-height:1.2">Análise PUV Score <span style="font-size:.6em;color:var(--muted);font-weight:400">v0.1.2.0</span></div>
+          <div style="font-family:var(--syne);font-size:1rem;font-weight:800;line-height:1.2">Análise PUV Score <span style="font-size:.6em;color:var(--muted);font-weight:400">v0.1.2.1</span></div>
           <div style="font-size:.75rem;margin-top:.15rem"><a href="${data.url}" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">${data.url} ↗</a></div>
         </div>
         <button class="btn-back" onclick="goBack()">← Nova análise</button>
@@ -1899,7 +1899,7 @@ const iaKit = (() => {
         const modelo = getModelo();
         const r = await fetch('https://openrouter.ai/api/v1/chat/completions',{
           method:'POST', signal:controller.signal,
-          headers:{'Authorization':`Bearer ${orKey}`,'Content-Type':'application/json','HTTP-Referer':window.location.href,'X-Title':document.title},
+          headers:{'Authorization':`Bearer ${orKey}`,'Content-Type':'application/json','HTTP-Referer':window.location.origin,'X-Title':'PUV Score'},
           body:JSON.stringify({model:modelo,temperature:0.3,max_tokens:3000,messages:[{role:'user',content:prompt}]})
         });
         if(!r.ok){ const err=await r.json().catch(()=>({})); throw new Error(`OpenRouter ${r.status}: ${err.error?.message||''}`); }
