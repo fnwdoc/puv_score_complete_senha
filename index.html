@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>PUV Score v0.1.2.1 — Análise Estratégica para Agências</title>
+<title>PUV Score v0.1.2.4 — Análise Estratégica para Agências</title>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -72,7 +72,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--inter);min-height:
 /* SETTINGS */
 #settings-btn{position:fixed;bottom:1.5rem;right:1.5rem;z-index:1000;width:48px;height:48px;border-radius:50%;background:var(--surface);border:1.5px solid var(--border2);color:var(--text2);font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);transition:all .2s}
 #settings-btn:hover{border-color:var(--accent);color:var(--accent);transform:scale(1.03)}
-#settings-panel{position:fixed;bottom:5.2rem;right:1.5rem;z-index:1000;background:var(--surface);border:1.5px solid var(--border2);border-radius:var(--radius-lg);padding:1.25rem;width:280px;box-shadow:var(--shadow);display:none;flex-direction:column;gap:1.25rem}
+#settings-panel{position:fixed;bottom:5.2rem;right:1.5rem;z-index:1000;background:var(--surface);border:1.5px solid var(--border2);border-radius:var(--radius-lg);padding:1.25rem;width:280px;box-shadow:var(--shadow);display:none;flex-direction:column;gap:1.25rem;max-height:80vh;overflow-y:auto;overscroll-behavior:contain}
 #settings-panel.open{display:flex}
 .setting-row{display:flex;flex-direction:column;gap:.5rem}
 .setting-label{font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
@@ -321,6 +321,11 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer}
 
 <button id="settings-btn" onclick="toggleSettings()" title="Configurações">⚙</button>
 <div id="settings-panel">
+  <!-- Último modelo usado -->
+  <div id="last-model-row" style="display:none;background:var(--accent-bg);border:1px solid var(--accent-bdr);border-radius:var(--radius-sm);padding:.5rem .75rem">
+    <div style="font-size:.6rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:.2rem">Último modelo usado</div>
+    <div id="last-model-name" style="font-size:.72rem;font-weight:600;color:var(--accent);word-break:break-all"></div>
+  </div>
   <div class="setting-row">
     <div class="setting-label">Tema</div>
     <div class="theme-toggle">
@@ -428,7 +433,7 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer}
             <div style="font-size:.62rem;color:var(--muted);letter-spacing:.04em;margin-top:.05rem">FNW Advisory &amp; Partners</div>
           </div>
         </div>
-        <span class="version-tag">v0.1.2.1</span>
+        <span class="version-tag">v0.1.2.4</span>
       </div>
       <!-- HERO: 2 colunas — esquerda texto, direita velocímetro -->
       <div style="display:grid;grid-template-columns:1fr auto;gap:1.25rem;align-items:center;margin-bottom:1.5rem">
@@ -772,6 +777,18 @@ let currentStepInterval = null, globalObserver = null, selectedType = 'site';
 
 function toggleSettings(){
   document.getElementById('settings-panel').classList.toggle('open');
+  // Update last model used
+  const modelo = window._iaKitUltimoModelo;
+  const row  = document.getElementById('last-model-row');
+  const name = document.getElementById('last-model-name');
+  if(row && name){
+    if(modelo && modelo !== '—'){
+      row.style.display = 'block';
+      name.textContent = modelo;
+    } else {
+      row.style.display = 'none';
+    }
+  }
 }
 document.addEventListener('click', e => {
   const panel = document.getElementById('settings-panel');
@@ -1061,7 +1078,7 @@ function renderReport(data){
     <div style="position:sticky;top:0;z-index:99;background:var(--surface);border-bottom:1px solid var(--border);margin-bottom:1.5rem">
       <div style="display:flex;justify-content:space-between;align-items:center;padding:.6rem 0 0;flex-wrap:wrap;gap:.5rem">
         <div>
-          <div style="font-family:var(--syne);font-size:1rem;font-weight:800;line-height:1.2">Análise PUV Score <span style="font-size:.6em;color:var(--muted);font-weight:400">v0.1.2.1</span></div>
+          <div style="font-family:var(--syne);font-size:1rem;font-weight:800;line-height:1.2">Análise PUV Score <span style="font-size:.6em;color:var(--muted);font-weight:400">v0.1.2.4</span></div>
           <div style="font-size:.75rem;margin-top:.15rem"><a href="${data.url}" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">${data.url} ↗</a></div>
         </div>
         <button class="btn-back" onclick="goBack()">← Nova análise</button>
@@ -1788,22 +1805,8 @@ Retorne APENAS JSON válido:
 }`;
 
   try {
-    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-      method:'POST',
-      headers:{'Content-Type':'application/json','Authorization':`Bearer ${apiKey}`},
-      body:JSON.stringify({
-        model:'llama-3.3-70b-versatile',
-        max_tokens:3000,
-        temperature:.2,
-        messages:[{role:'user',content:prompt}]
-      })
-    });
-    if(!res.ok) throw new Error(`Groq erro ${res.status}`);
-    const d = await res.json();
-    const raw = d.choices[0].message.content.trim();
-    const match = raw.match(/\{[\s\S]*\}/);
-    if(!match) throw new Error('JSON inválido');
-    const planData = JSON.parse(match[0]);
+    const raw = await iaKit.chamar(prompt);
+    const planData = iaKit.parseJSON(raw);
     renderPlanTable(planData.plan, obs);
   } catch(e) {
     document.getElementById('plan-loading').style.display = 'none';
